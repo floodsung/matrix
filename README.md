@@ -223,28 +223,15 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
 ## 📡 Sensor Data Post-processing
 
-- Depth camera publishes in `sensor_msgs::msg::CompressedImage` with **MONO8 encoding**  
-- Convert to a single-channel grayscale (`int8`) image  
-- Depth values are calculated as:  
+- The depth camera outputs images as `sensor_msgs::msg::CompressedImage` with **RGBA encoding**.
+- To obtain a grayscale depth image, extract a single channel (e.g., the R channel) and convert it to an `int8` grayscale image.
+- Depth values can be computed from pixel values as follows:
 
 ```math
-depth = pixel_value / 20
+depth = pixelvalue / 20
 ```
 
-### Example Conversion Code
-```cpp
-void callback(const sensor_msgs::msg::CompressedImage::SharedPtr msg)
-{
-    cv_bridge::CvImagePtr cv_ptr;
-    try {
-        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::MONO8);
-    } catch (cv_bridge::Exception & e) {
-        RCLCPP_ERROR(this->get_logger(), "Image conversion failed: %s", e.what());
-        return;
-    }
-    cv_ptr->image = cv_ptr->image / 20.0;
-}
-```
+
 
 
   ## 📡 Sensor Data Visualization in RViz

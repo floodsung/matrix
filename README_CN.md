@@ -226,28 +226,14 @@ vim matrix/src/UeSim/jszr_mujoco_ue/Content/model/config/config.json
 
 ## 📡 传感器数据后处理
 
-- 深度相机以 `sensor_msgs::msg::CompressedImage` 格式发布，编码为 **MONO8**  
-- 转换为单通道灰度（`int8`）图像  
-- 深度值计算方式如下：  
+- 深度相机输出为 `sensor_msgs::msg::CompressedImage`，采用 **RGBA 编码**。
+- 若需获得灰度深度图像，可提取单通道（如 R 通道），并转换为 `int8` 灰度图像。
+- 深度值可通过像素值按如下方式计算：
 
 ```math
-depth = pixel_value / 20
+depth = pixelvalue / 20
 ```
 
-### 示例转换代码
-```cpp
-void callback(const sensor_msgs::msg::CompressedImage::SharedPtr msg)
-{
-    cv_bridge::CvImagePtr cv_ptr;
-    try {
-        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::MONO8);
-    } catch (cv_bridge::Exception & e) {
-        RCLCPP_ERROR(this->get_logger(), "Image conversion failed: %s", e.what());
-        return;
-    }
-    cv_ptr->image = cv_ptr->image / 20.0;
-}
-```
 
   ## 📡 传感器数据在 RViz 中可视化
 
