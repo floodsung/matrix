@@ -203,9 +203,12 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
       "topic": "/image_raw/compressed"
     },
     "depth_sensor": {
-      "position": { "x": 29.0,
-    "sensor_type": "depth",
-    "topic": "/image_raw/compressed/depth"
+      "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
+      "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
+      "height": 1080,
+      "width": 1920,
+      "sensor_type": "depth",
+      "topic": "/image_raw/compressed/depth"
   },
   "lidar": {
     "position": { "x": 13.011, "y": 2.329, "z": 17.598 },
