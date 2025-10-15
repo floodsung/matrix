@@ -1,214 +1,201 @@
 <h1>
   <a href="#"><img alt="Forest" src="demo_gif/Forest.png" width="100%"/></a>
-</h1>
+  </h1>
 
-# Matrix
-Matrix 是一个先进的仿真平台，集成了 **MuJoCo**、**Unreal Engine 5** 和 **CARLA**，为四足机器人研究提供高保真、交互式的仿真环境。其软件在环（SIL）架构实现了真实的物理仿真、沉浸式视觉效果，并优化了仿真到现实（sim-to-real）的迁移能力，助力机器人开发与部署。
+# MATRIX
+MATRIX 是一个先进的仿真平台，集成了 **MuJoCo**、**Unreal Engine 5** 和 **CARLA**，为四足机器人研究提供高保真、交互式环境。其软件在环架构实现了逼真的物理效果、沉浸式视觉效果以及优化的仿真到现实迁移能力，助力机器人开发与部署。
 
+  ---
 
----
+  ## 📂 目录结构
 
-## 📂 目录结构
-
-```text
-├── deps/                        # 第三方依赖
-│   ├── ecal_5.13.3-1ppa1~jammy_amd64.deb
-│   ├── mujoco_3.3.0_x86_64_Linux.deb
-│   ├── onnx_1.51.0_x86_64_jammy_Linux.deb
-│   └── zsibot_common*.deb
-├── scripts/                     # 构建与配置脚本
-│   ├── build_mc.sh
-│   ├── build_mujoco_sdk.sh
-│   ├── download_uesim.sh
-│   ├── install_deps.sh
-│   └── modify_config.sh
-├── src/
-│   ├── robot_mc/
-│   ├── robot_mujoco/
-│   ├── navigo/
-│   └── UeSim/
-├── build.sh                     # 一键构建脚本
-├── run_sim.sh                   # 仿真启动脚本
-└── README.md                    # 项目文档
-```
-
----
-
-## ⚙️ 环境依赖
-
-- **操作系统：** Ubuntu 22.04  
-- **推荐显卡：** NVIDIA RTX 4060 或更高  
-- **Unreal Engine：** 已集成（无需单独安装）  
-- **构建环境：**  
-  - GCC/G++ ≥ C++11  
-  - CMake ≥ 3.16  
-- **MuJoCo：** 3.3.0 开源版（已集成）  
-- **遥控手柄：** 必需（推荐：*Logitech Wireless Gamepad F710*）  
-- **Python 依赖：** `gdown`  
-
----
-
-## 🚀 安装与构建
-
-1. **LCM 安装**
-
-   ```bash
-    sudo apt install cmake-qt-gui gcc g++ libglib2.0-dev python3-pip
-    下载lcm源码，链接https://github.com/lcm-proj/lcm/releases，解压，进入解压目录
-    cd lcm
-    mkdir build 
-    cd build
-    cmake ..
-    make -j32
-    sudo make install
-   ```
-
-2. **下载 UE 仿真器**
-
-    - **方式一：Google Drive**
-
-      [Google Drive 下载链接](https://drive.google.com/drive/folders/1JN9K3m6ZvmVpHY9BLk4k_Yj9vndyh8nT?usp=sharing)
-
-      **使用 gdown 下载：**
-      ```bash
-      pip install gdown
-      gdown https://drive.google.com/uc?id=1Xp7ZQrFeQO6ijKAKw5uRmbMAHoPuG-Yg
-      ```
-
-    - **方式二：百度网盘**  
-
-      [百度网盘链接](https://pan.baidu.com/s/1V2GsUptFS-pkpU_2ckcg4A?pwd=utjn)  
-
-    - **方式三：JFrog**  
-
-      ```bash
-      curl -H "Authorization: Bearer cmVmdGtuOjAxOjE3ODQ2MDY4OTQ6eFJvZVA5akpiMmRzTFVwWXQ3YWRIbTI3TEla"  -o "matrix.zip" -# "http://192.168.50.40:8082/artifactory/jszrsim/UeSim/matrix.zip"  
-      ```
-
-3. **解压**
-   ```bash
-   unzip <下载文件名>
-   ```
-
-4. **安装依赖并构建**
-    ```bash
-    cd matrix
-    ./build.sh
-     ```
-   *(包含依赖安装)*
-
----
-
-## 🏞️ 演示环境
-
-<div align="center">
-
-<table>
-  <tr>
-    <th>Map</th>
-    <th>Demo Screenshot</th>
-    <th>Map</th>
-    <th>Demo Screenshot</th>
-  </tr>
-  <tr>
-    <td><b>Start Map</b></td>
-    <td><img src="demo_gif/start_map.png" alt="Matrix Demo Screenshot" width="350" height="200"/></td>
-    <td><b>Warehouse</b></td>
-    <td><img src="demo_gif/whmap.gif" alt="Matrix Warehouse Demo" width="350" height="200"/></td>
-  </tr>
-  <tr>
-    <td><b>Town10</b></td>
-    <td><img src="demo_gif/Town10.gif" alt="Matrix Town Demo" width="350" height="200"/></td>
-    <td><b>Yard</b></td>
-    <td><img src="demo_gif/Yardmap.gif" alt="Matrix Yardmap Demo" width="350" height="200"/></td>
-  </tr>
-</table>
-
-</div>
-
-> **注：** 上述截图展示了用于机器人与强化学习实验的 UE5 高保真渲染效果。
-
----
-
-## ▶️ 仿真运行方式
-
-### 无渲染模式（Headless Mode）
-```bash
-./run_sim.sh MapId offrender # 示例：./run_sim.sh 1 offrender
-```
-- MuJoCo 物理仿真窗口弹出  
-- Unreal Engine 在后台运行  
-- 使用 ROS 工具查看图像：
-  ```bash
-  sudo apt install ros-humble-image-transport*
-  rqt
+  ```text
+  ├── deps/                        # 第三方依赖
+  │   ├── ecal_5.13.3-1ppa1~jammy_amd64.deb
+  │   ├── mujoco_3.3.0_x86_64_Linux.deb
+  │   ├── onnx_1.51.0_x86_64_jammy_Linux.deb
+  │   └── zsibot_common*.deb
+  ├── scripts/                     # 构建与配置脚本
+  │   ├── build_mc.sh
+  │   ├── build_mujoco_sdk.sh
+  │   ├── download_uesim.sh
+  │   ├── install_deps.sh
+  │   └── modify_config.sh
+  ├── src/
+  │   ├── robot_mc/
+  │   ├── robot_mujoco/
+  │   ├── navigo/
+  │   └── UeSim/
+  ├── build.sh                     # 一键构建脚本
+  ├── run_sim.sh                   # 仿真启动脚本
+  └── README.md                    # 项目文档
   ```
 
-### 渲染模式
-```bash
-./run_sim.sh MapId  # 示例：./run_sim.sh 1 
-```
-- UE 可视化窗口弹出  
-- MuJoCo 物理仿真窗口弹出  
+  ---
 
-| MapId | 地图名称      |
-|-------|--------------|
-| 1     | **仓库** |
-| 2     | **城镇**    |
-| 3     | **庭院**      |
-| 4     | **crowd**     |
-| 5     | **威尼斯**     |
-| 6     | **公寓**     |
-| 7     | **家庭**     |
+  ## ⚙️ 环境依赖
 
----
+  - **操作系统：** Ubuntu 22.04  
+  - **推荐 GPU：** NVIDIA RTX 4060 或更高  
+  - **Unreal Engine：** 集成（无需单独安装）  
+  - **构建环境：**  
+    - GCC/G++ ≥ C++11  
+    - CMake ≥ 3.16  
+  - **MuJoCo：** 3.3.0 开源版本（已集成）  
+  - **远程控制器：** 必需（推荐：*Logitech Wireless Gamepad F710*）  
+  - **Python 依赖：** `gdown`  
 
-## 🎮 手柄操作说明
+  ---
 
-| 动作                                 | 手柄操作                                 |
-|--------------------------------------|-----------------------------------------|
-| 站立 / 坐下                          | 长按 **LB** + **Y**                     |
-| 前进 / 后退 / 左移 / 右移            | **左摇杆**（上 / 下 / 左 / 右）           |
-| 左转 / 右转                          | **右摇杆**（左 / 右）                    |
-| 前跳                                 | 长按 **RB** + **Y**                     |
-| 原地跳                               | 长按 **RB** + **X**                     |
-| 翻跟头                                 | 长按 **RB** + **B**                     |
+  ## 🚀 安装与构建
 
-按下 **V** 键可在自由视角与机器人视角之间切换。  
-按住**鼠标左键**可临时切换为自由视角模式。
----
+  1. **安装 LCM**
+     ```bash
+     sudo apt update
+     sudo apt install -y cmake-qt-gui gcc g++ libglib2.0-dev python3-pip
+     ```
+     从 [LCM Releases](https://github.com/lcm-proj/lcm/releases) 下载源码并解压。
 
-## 🔧 配置指南
+     构建与安装：
+     ```bash
+     cd lcm-<version>
+     mkdir build
+     cd build
+     cmake ..
+     make -j$(nproc)
+     sudo make install
+     ```
+     > **注意：** 将 `<version>` 替换为实际解压的 LCM 目录名称。
 
-### 1. 更新 MuJoCo 场景
-编辑配置文件：
-```bash
-vim matrix/src/jszr_mujoco/simulate/config.yaml
-```
-### 调整传感器配置
-编辑：
-```bash
-vim matrix/src/UeSim/jszr_mujoco_ue/Content/model/config/config.json
-```
+  2. **下载 UE 仿真器**
 
-示例片段：
-```json
-"sensors": {
-  "camera": {
-    "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
-    "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
-    "height": 1080,
-    "width": 1920,
-    "sensor_type": "rgb",
-    "topic": "/image_raw/compressed"
-  },
-  "depth_sensor": {
-    "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
-    "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
-    "height": 1080,
-    "width": 1920,
-    "sensor_type": "depth",
-    "topic": "/image_raw/compressed/depth"
+     - **方法 1：Google Drive**  
+       [Google Drive 下载链接](https://drive.google.com/drive/folders/1JN9K3m6ZvmVpHY9BLk4k_Yj9vndyh8nT?usp=sharing)
+
+       **通过 gdown 下载：**
+       ```bash
+       pip install gdown
+       gdown https://drive.google.com/uc?id=1WMtHqtJEggjgTk0rOcwO6m99diUlzq_J
+       ```
+
+     - **方法 2：百度网盘**  
+       [百度网盘链接](https://pan.baidu.com/s/1o8UEO1vUxPYmzeiiP9DYgg?pwd=hwqs)  
+
+     - **方法 3：JFrog**  
+       ```bash
+       curl -H "Authorization: Bearer cmVmdGtuOjAxOjE3ODQ2MDY4OTQ6eFJvZVA5akpiMmRzTFVwWXQ3YWRIbTI3TEla"  -o "matrix.zip" -# "http://192.168.50.40:8082/artifactory/jszrsim/UeSim/matrix.zip"  
+       ```
+    > **注意：** 从云存储链接下载时，请确保选择最新版本以获得最佳兼容性和功能。
+
+  3. **解压**
+     ```bash
+     unzip <downloaded_filename>
+     ```
+
+  4. **安装依赖**
+     ```bash
+     cd matrix
+     ./build.sh
+     ```
+     *(此脚本将自动安装所有必需依赖。)*
+
+  ---
+
+  ## 🏞️ 仿真演示
+
+  <div align="center">
+
+  | **Map**         | **Demo Screenshot**                          | **Map**         | **Demo Screenshot**                          |
+  |:---------------:|:-------------------------------------------:|:---------------:|:-------------------------------------------:|
+  | **Venice**      | <img src="demo_gif/Venice.gif" alt="Matrix Demo Screenshot" width="350" height="200"/> | **Warehouse**   | <img src="demo_gif/whmap.gif" alt="Matrix Warehouse Demo" width="350" height="200"/> |
+  | **Town10**      | <img src="demo_gif/Town10.gif" alt="Matrix Town Demo" width="350" height="200"/>       | **Yard**        | <img src="demo_gif/Yardmap.gif" alt="Matrix Yardmap Demo" width="350" height="200"/> |
+
+  </div>
+
+  > **注意：** 上述截图展示了用于机器人和强化学习实验的高保真 UE5 渲染效果。
+
+  ---
+
+  ## ▶️ 运行仿真
+
+  <div align="center">
+    <img src="demo_gif/Launcher.png" alt="Simulation Running Example" width="50%" />
+  </div>
+
+  ## 🐕 仿真设置指南
+
+  1. **选择机器人类型**  
+    选择仿真中使用的四足机器人类型。
+
+  2. **选择环境**  
+    选择所需的仿真环境或地图。
+
+  3. **选择控制设备**  
+    选择首选的控制设备：  
+    - 游戏手柄控制
+    - 键盘控制
+
+  4. **启用无头模式（可选）**  
+    切换 **无头模式** 选项以在无图形界面下运行仿真。
+
+  5. **启动仿真**  
+    点击 **启动仿真** 按钮开始仿真。
+
+
+
+  ## 🎮 远程控制器说明（游戏手柄控制指南）
+
+  | 动作                              | 控制器输入                        |
+  |--------------------------------------|-----------------------------------------|
+  | 站立 / 坐下                         | 按住 **LB** + **Y**                     |
+  | 前进 / 后退 / 左移 / 右移            | **左摇杆**（上 / 下 / 左 / 右）         |
+  | 左转 / 右转                         | **右摇杆**（左 / 右）                   |
+  | 前跳                                | 按住 **RB** + **Y**                     |
+  | 原地跳                              | 按住 **RB** + **X**                     |
+  | 翻滚                                | 按住 **RB** + **B**                     |
+
+  
+  ## ⌨️ 远程控制器说明（键盘控制指南）
+
+  | 动作                              | 控制器输入                        |
+  |--------------------------------------|-----------------------------------------|
+  | 站立                               | U                                       |
+  | 坐下                               | 空格键                                 |
+  | 前进 / 后退 / 左移 / 右移            | W / S / A / D                           |
+  | 左转 / 右转                         | Q / E                                   |
+
+  按 **V** 键在自由相机和机器人视角之间切换。  
+  按住 **左键** 可临时切换到自由相机模式。
+
+  ---
+
+  ## 🔧 配置指南
+
+  ### 调整传感器配置
+
+  编辑：
+  ```bash
+  vim matrix/src/UeSim/jszr_mujoco_ue/Content/model/config/config.json
+  ```
+
+  示例片段：
+  ```json
+  "sensors": {
+    "camera": {
+      "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
+      "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
+      "height": 1080,
+      "width": 1920,
+      "sensor_type": "rgb",
+      "topic": "/image_raw/compressed"
+    },
+    "depth_sensor": {
+      "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
+      "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
+      "height": 480,
+      "width": 640,
+      "sensor_type": "depth",
+      "topic": "/image_raw/compressed/depth"
   },
   "lidar": {
     "position": { "x": 13.011, "y": 2.329, "z": 17.598 },
@@ -219,37 +206,45 @@ vim matrix/src/UeSim/jszr_mujoco_ue/Content/model/config/config.json
 }
 ```
 
-- 可根据需要调整**位姿**和**传感器数量**  
-- 删除未使用的传感器以提升 **UE FPS 性能**
+- 根据需要调整 **位姿** 和 **传感器数量**  
+- 移除未使用的传感器以提高 **UE FPS 性能**
 
 ---
 
 ## 📡 传感器数据后处理
 
-- 深度相机输出为 `sensor_msgs::msg::CompressedImage`，采用 **RGBA 编码**。
-- 若需获得灰度深度图像，可提取单通道（如 R 通道），并转换为 `int8` 灰度图像。
-- 深度值可通过像素值按如下方式计算：
+- 深度相机以 **32FC1 编码** 输出图像为 `sensor_msgs::msg::Image`。
+- 要获取灰度深度图像，可使用以下代码片段：
 
-```math
-depth = pixelvalue / 20
+```bash
+  void callback(const sensor_msgs::msg::Image::SharedPtr msg)
+  {
+    cv::Mat depth_image;
+    depth_image = cv::Mat(HEIGHT, WIDTH, CV_32FC1, const_cast<uchar*>(msg->data.data()));
+  }
 ```
 
 
-  ## 📡 传感器数据在 RViz 中可视化
 
-  在 RViz 中可视化传感器数据的方法如下：
 
-  1. **按前述方式启动仿真。**
-  2. **启动 RViz：**
+  ## 📡 在 RViz 中可视化传感器数据
+
+  要在 RViz 中可视化传感器数据：
+
+  1. **按照上述步骤启动仿真**。
+  2. **启动 RViz**：
     ```bash
     rviz2
     ```
-  3. **加载配置文件：**  
-    在 RViz 中打开 `rviz/matrix.rviz`，即可获得预设视图。
+  3. **加载配置文件**：  
+    在 RViz 中打开 `rviz/matrix.rviz` 以获得预配置视图。
 
   <div align="center">
     <img src="./demo_gif/rviz2.png" alt="RViz Visualization Example" width="1280" height="720"/>
   </div>
+  
+  > **提示：** 确保您的 ROS 环境已正确配置，并且相关主题正在发布。
 
-  > **提示：** 请确保已正确 source ROS 环境，并且相关话题正在发布。
+
+
   ---

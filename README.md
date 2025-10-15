@@ -75,17 +75,18 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
        **Download via gdown:**
        ```bash
        pip install gdown
-       gdown https://drive.google.com/uc?id=1Xp7ZQrFeQO6ijKAKw5uRmbMAHoPuG-Yg
+       gdown https://drive.google.com/uc?id=1WMtHqtJEggjgTk0rOcwO6m99diUlzq_J
        ```
 
      - **Method 2: Baidu Netdisk**  
-       [Baidu Netdisk Link](https://pan.baidu.com/s/1V2GsUptFS-pkpU_2ckcg4A?pwd=utjn)  
+       [Baidu Netdisk Link](https://pan.baidu.com/s/1o8UEO1vUxPYmzeiiP9DYgg?pwd=hwqs)  
 
      - **Method 3: JFrog**  
        ```bash
        curl -H "Authorization: Bearer cmVmdGtuOjAxOjE3ODQ2MDY4OTQ6eFJvZVA5akpiMmRzTFVwWXQ3YWRIbTI3TEla"  -o "matrix.zip" -# "http://192.168.50.40:8082/artifactory/jszrsim/UeSim/matrix.zip"  
        ```
-
+    > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
+    
   3. **Unzip**
      ```bash
      unzip <downloaded_filename>
@@ -104,26 +105,10 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
   <div align="center">
 
-  <table>
-    <tr>
-      <th>Map</th>
-      <th>Demo Screenshot</th>
-      <th>Map</th>
-      <th>Demo Screenshot</th>
-    </tr>
-    <tr>
-      <td><b>Start Map</b></td>
-      <td><img src="demo_gif/start_map.png" alt="Matrix Demo Screenshot" width="350" height="200"/></td>
-      <td><b>Warehouse</b></td>
-      <td><img src="demo_gif/whmap.gif" alt="Matrix Warehouse Demo" width="350" height="200"/></td>
-    </tr>
-    <tr>
-      <td><b>Town10</b></td>
-      <td><img src="demo_gif/Town10.gif" alt="Matrix Town Demo" width="350" height="200"/></td>
-      <td><b>Yard</b></td>
-      <td><img src="demo_gif/Yardmap.gif" alt="Matrix Yardmap Demo" width="350" height="200"/></td>
-    </tr>
-  </table>
+  | **Map**         | **Demo Screenshot**                          | **Map**         | **Demo Screenshot**                          |
+  |:---------------:|:-------------------------------------------:|:---------------:|:-------------------------------------------:|
+  | **Venice**      | <img src="demo_gif/Venice.gif" alt="Matrix Demo Screenshot" width="350" height="200"/> | **Warehouse**   | <img src="demo_gif/whmap.gif" alt="Matrix Warehouse Demo" width="350" height="200"/> |
+  | **Town10**      | <img src="demo_gif/Town10.gif" alt="Matrix Town Demo" width="350" height="200"/>       | **Yard**        | <img src="demo_gif/Yardmap.gif" alt="Matrix Yardmap Demo" width="350" height="200"/> |
 
   </div>
 
@@ -133,40 +118,32 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
   ## ▶️ Running the Simulation
 
-  ### Headless Mode
+  <div align="center">
+    <img src="demo_gif/Launcher.png" alt="Simulation Running Example" width="50%" />
+  </div>
 
-  ```bash
-  ./run_sim.sh MapId offrender # example: ./run_sim.sh 1 offrender
-  ```
-  - MuJoCo physics simulation window pops up  
-  - Unreal Engine runs in the background  
-  - Use ROS tools to view images:
-    ```bash
-    sudo apt install ros-humble-image-transport*
-    rqt
-    ```
+  ## 🐕 Simulation Setup Guide
 
-  ### Rendering Mode
+  1. **Select Robot Type**  
+    Choose the type of quadruped robot for the simulation.
 
-  ```bash
-  ./run_sim.sh MapId  # example: ./run_sim.sh 1 
-  ```
-  - UE visualization window pops up  
-  - MuJoCo physics simulation window pops up  
+  2. **Select Environment**  
+    Pick the desired simulation environment or map.
 
-  | MapId | Map Name      |
-  |-------|--------------|
-  | 1     | **warehouse** |
-  | 2     | **town10**    |
-  | 3     | **yard**      |
-  | 4     | **crowd**     |
-  | 5     | **venice**    |
-  | 6     | **apartment** |
-  | 7     | **house**     |
+  3. **Choose Control Device**  
+    Select your preferred control device:  
+    - Gamepad Control
+    - Keyboard Control
 
-  ---
+  4. **Enable Headless Mode (Optional)**  
+    Toggle the **Headless Mode** option for running the simulation without a graphical interface.
 
-  ## 🎮 Remote Controller Instructions
+  5. **Launch Simulation**  
+    Click the **Launch Simulation** button to start the simulation.
+
+
+
+  ## 🎮 Remote Controller Instructions (Gamepad Control Guide)
 
   | Action                              | Controller Input                        |
   |--------------------------------------|-----------------------------------------|
@@ -176,6 +153,16 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   | Jump Forward                        | Hold **RB** + **Y**                     |
   | Jump in Place                       | Hold **RB** + **X**                     |
   | Somersault                          | Hold **RB** + **B**                     |
+
+  
+  ## ⌨️ Remote Controller Instructions (Keyboard Control Guide)
+
+  | Action                              | Controller Input                        |
+  |--------------------------------------|-----------------------------------------|
+  | Stand                               | U                                       |
+  | Sit                                 | Space                                   |
+  | Move Forward / Back / Left / Right  | W / S / A / D                           |
+  | Rotate Left / Right                 | Q / E                                   |
 
   Press the **V** key to toggle between free camera and robot view.  
   Hold the **left mouse button** to temporarily switch to free camera mode.
@@ -205,8 +192,8 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
     "depth_sensor": {
       "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
       "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
-      "height": 1080,
-      "width": 1920,
+      "height": 480,
+      "width": 640,
       "sensor_type": "depth",
       "topic": "/image_raw/compressed/depth"
   },
@@ -226,12 +213,15 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
 ## 📡 Sensor Data Post-processing
 
-- The depth camera outputs images as `sensor_msgs::msg::CompressedImage` with **RGBA encoding**.
-- To obtain a grayscale depth image, extract a single channel (e.g., the R channel) and convert it to an `int8` grayscale image.
-- Depth values can be computed from pixel values as follows:
+- The depth camera outputs images as `sensor_msgs::msg::Image` with **32FC1 encoding**.
+- To obtain a grayscale depth image, use the following code snippet:
 
-```math
-depth = pixelvalue / 20
+```bash
+  void callback(const sensor_msgs::msg::Image::SharedPtr msg)
+  {
+    cv::Mat depth_image;
+    depth_image = cv::Mat(HEIGHT, WIDTH, CV_32FC1, const_cast<uchar*>(msg->data.data()));
+  }
 ```
 
 
