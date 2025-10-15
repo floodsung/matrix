@@ -141,8 +141,8 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   5. **Launch Simulation**  
     Click the **Launch Simulation** button to start the simulation.
 
-
-
+  During simulation, if the UE window is active, you can press **ALT + TAB** to switch out of it.  
+  Then, use the control-mode toggle button on the launcher to switch between gamepad and keyboard control at any time.
   ## 🎮 Remote Controller Instructions (Gamepad Control Guide)
 
   | Action                              | Controller Input                        |
