@@ -67,7 +67,7 @@ MATRIX 是一个先进的仿真平台，集成了 **MuJoCo**、**Unreal Engine 5
      ```
      > **注意：** 将 `<version>` 替换为实际解压的 LCM 目录名称。
 
-  2. **下载 UE 仿真器**
+  2. **下载 MATRiX 仿真器**
 
      - **方法 1：Google Drive**  
        [Google Drive 下载链接](https://drive.google.com/drive/folders/1JN9K3m6ZvmVpHY9BLk4k_Yj9vndyh8nT?usp=sharing)
@@ -85,7 +85,7 @@ MATRIX 是一个先进的仿真平台，集成了 **MuJoCo**、**Unreal Engine 5
        ```bash
        curl -H "Authorization: Bearer cmVmdGtuOjAxOjE3ODQ2MDY4OTQ6eFJvZVA5akpiMmRzTFVwWXQ3YWRIbTI3TEla"  -o "matrix.zip" -# "http://192.168.50.40:8082/artifactory/jszrsim/UeSim/matrix.zip"  
        ```
-    > **注意：** 从云存储链接下载时，请确保选择最新版本以获得最佳兼容性和功能。
+      > **注意：** 从云存储链接下载时，请确保选择最新版本以获得最佳兼容性和功能。
 
   3. **解压**
      ```bash

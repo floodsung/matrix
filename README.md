@@ -67,7 +67,7 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
      ```
      > **Note:** Replace `<version>` with the actual extracted LCM directory name.
 
-  2. **Download the UE simulator**
+  2. **Download MATRiX simulator**
 
      - **Method 1: Google Drive**  
        [Google Drive Download Link](https://drive.google.com/drive/folders/1JN9K3m6ZvmVpHY9BLk4k_Yj9vndyh8nT?usp=sharing)
@@ -85,7 +85,7 @@ MATRIX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
        ```bash
        curl -H "Authorization: Bearer cmVmdGtuOjAxOjE3ODQ2MDY4OTQ6eFJvZVA5akpiMmRzTFVwWXQ3YWRIbTI3TEla"  -o "matrix.zip" -# "http://192.168.50.40:8082/artifactory/jszrsim/UeSim/matrix.zip"  
        ```
-    > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
+      > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
     
   3. **Unzip**
      ```bash
