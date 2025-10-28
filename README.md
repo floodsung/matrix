@@ -3,7 +3,7 @@
   </h1>
 
 # MATRiX
-MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal Engine 5**, and **CARLA** to provide high-fidelity, interactive environments for robotics research. Its software-in-the-loop architecture enables realistic physics, immersive visuals, and optimized sim-to-real transfer for robotics development and deployment.
+MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal Engine 5**, and **CARLA** to provide high-fidelity, interactive environments for quadruped robot research. Its software-in-the-loop architecture enables realistic physics, immersive visuals, and optimized sim-to-real transfer for robotics development and deployment.
 
   ---
 
@@ -132,8 +132,8 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
   3. **Choose Control Device**  
     Select your preferred control device:  
-    - Gamepad Control
-    - Keyboard Control
+    - **Gamepad Control**  
+    - **Keyboard Control**
 
   4. **Enable Headless Mode (Optional)**  
     Toggle the **Headless Mode** option for running the simulation without a graphical interface.
@@ -246,5 +246,14 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   > **Tip:** Ensure your ROS environment is properly sourced and relevant topics are being published.
 
 
+  ## 🙏 Acknowledgements
+
+  This project builds upon the incredible work of the following open-source projects:
+
+  - [MuJoCo-Unreal-Engine-Plugin](https://github.com/oneclicklabs/MuJoCo-Unreal-Engine-Plugin)  
+  - [MuJoCo](https://github.com/google-deepmind/mujoco)  
+  - [Unreal Engine](https://github.com/EpicGames/UnrealEngine)  
+
+  We extend our gratitude to the developers and contributors of these projects for their invaluable efforts in advancing robotics and simulation technologies.
 
   ---
