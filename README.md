@@ -252,7 +252,8 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
   - [MuJoCo-Unreal-Engine-Plugin](https://github.com/oneclicklabs/MuJoCo-Unreal-Engine-Plugin)  
   - [MuJoCo](https://github.com/google-deepmind/mujoco)  
-  - [Unreal Engine](https://github.com/EpicGames/UnrealEngine)  
+  - [Unreal Engine](https://github.com/EpicGames/UnrealEngine)
+  - [CARLA](https://carla.org/)
 
   We extend our gratitude to the developers and contributors of these projects for their invaluable efforts in advancing robotics and simulation technologies.
 
