@@ -245,7 +245,14 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   
   > **Tip:** Ensure your ROS environment is properly sourced and relevant topics are being published.
 
+  ## 📋 TODO List
 
+  - [x] IROS competition map
+  - [ ] Support for third-party quadruped robot models
+  - [ ] Add multi-robot simulation capabilities
+
+  
+  ---
   ## 🙏 Acknowledgements
 
   This project builds upon the incredible work of the following open-source projects:
