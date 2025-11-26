@@ -1,0 +1,131 @@
+{
+  "version": "2.0.8",
+  "release_date": "2025-11-26T16:17:14Z",
+  "packages": {
+    "base": {
+      "file": "base-2.0.8.tar.gz",
+      "required": true,
+      "description": "基础包 (Chunk 0) - 包含EmptyWorld和核心蓝图",
+      "size": 933304827
+    },
+    "shared": {
+      "file": "shared-2.0.8.tar.gz",
+      "required": false,
+      "description": "共享资源包 (Chunk 1) - 包含Fab/Warehouse和StarterContent共享资源",
+      "size": 191014528
+    },
+    "maps": [
+      {
+        "name": "CrowdWorld",
+        "file": "CrowdWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - CrowdWorld",
+        "size": 425679827
+      }
+,
+      {
+        "name": "Custom",
+        "file": "Custom-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - Custom",
+        "size": 10627855
+      }
+,
+      {
+        "name": "HouseWorld",
+        "file": "HouseWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - HouseWorld",
+        "size": 346716484
+      }
+,
+      {
+        "name": "IROSFlatWorld2025",
+        "file": "IROSFlatWorld2025-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - IROSFlatWorld2025",
+        "size": 126130771
+      }
+,
+      {
+        "name": "IROSFlatWorld",
+        "file": "IROSFlatWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - IROSFlatWorld",
+        "size": 192485648
+      }
+,
+      {
+        "name": "IROSSlopedWorld",
+        "file": "IROSSlopedWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - IROSSlopedWorld",
+        "size": 447169661
+      }
+,
+      {
+        "name": "IROSSloppedWorld2025",
+        "file": "IROSSloppedWorld2025-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - IROSSloppedWorld2025",
+        "size": 126134798
+      }
+,
+      {
+        "name": "OfficeWorld",
+        "file": "OfficeWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - OfficeWorld",
+        "size": 7020728
+      }
+,
+      {
+        "name": "RunningWorld",
+        "file": "RunningWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - RunningWorld",
+        "size": 37282168
+      }
+,
+      {
+        "name": "SceneWorld",
+        "file": "SceneWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - SceneWorld",
+        "size": 290609992
+      }
+,
+      {
+        "name": "Town10World",
+        "file": "Town10World-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - Town10World",
+        "size": 3845682741
+      }
+,
+      {
+        "name": "Town10Zombie",
+        "file": "Town10Zombie-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - Town10Zombie",
+        "size": 3845047115
+      }
+,
+      {
+        "name": "VeniceWorld",
+        "file": "VeniceWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - VeniceWorld",
+        "size": 350105371
+      }
+,
+      {
+        "name": "YardWorld",
+        "file": "YardWorld-2.0.8.tar.gz",
+        "required": false,
+        "description": "地图包 - YardWorld",
+        "size": 821519243
+      }
+    ]
+  }
+}

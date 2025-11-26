@@ -1,0 +1,27 @@
+# Chunk package temporary files
+.chunk_downloads_*/
+
+# Release package source directories (keep .tar.gz files)
+releases/chunks/*/base/
+releases/chunks/*/shared/
+releases/chunks/*/maps/*/
+
+# Release package files (upload to GitHub Releases instead of Git)
+releases/chunks/*/*.tar.gz
+releases/chunks/*/maps/*.tar.gz
+
+# Build artifacts
+*.log
+*.tmp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
