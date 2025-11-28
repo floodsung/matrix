@@ -1,18 +1,32 @@
 # Chunk package temporary files
 .chunk_downloads_*/
 
-# Release package source directories (keep .tar.gz files)
-releases/chunks/*/base/
-releases/chunks/*/shared/
-releases/chunks/*/maps/*/
-
 # Release package files (upload to GitHub Releases instead of Git)
-releases/chunks/*/*.tar.gz
-releases/chunks/*/maps/*.tar.gz
+# Assets are downloaded directly to releases/ directory
+releases/*.tar.gz
+releases/*.json
+releases/chunks/
+!releases/.gitkeep
+
+# UeSim content (filled by downloading releases)
+# Keep directory structure but ignore content
+src/UeSim/Linux/jszr_mujoco_ue/Content/Paks/*
+src/UeSim/Linux/jszr_mujoco_ue/Content/model/*
+src/UeSim/Linux/jszr_mujoco_ue/Binaries/*
+!src/UeSim/Linux/jszr_mujoco_ue/.gitkeep
 
 # Build artifacts
 *.log
 *.tmp
+
+# Build directories
+**/build/
+**/build_*/
+**/*.bak.*/
+
+# Runtime logs
+**/run_*.log
+**/*_ue.log
 
 # IDE files
 .vscode/

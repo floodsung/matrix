@@ -2,6 +2,13 @@
   <a href="#"><img alt="Forest" src="demo_gif/Forest.png" width="100%"/></a>
   </h1>
 
+<div align="right">
+
+[![English](https://img.shields.io/badge/Language-English-blue)](README.md)
+[![中文](https://img.shields.io/badge/语言-中文-red)](docs/README_CN.md)
+
+</div>
+
 # MATRiX
 MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal Engine 5**, and **CARLA** to provide high-fidelity, interactive environments for quadruped robot research. Its software-in-the-loop architecture enables realistic physics, immersive visuals, and optimized sim-to-real transfer for robotics development and deployment.
 
@@ -10,24 +17,31 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   ## 📂 Directory Structure
 
   ```text
+  ├── bin/                         # Executable binaries
+  │   └── sim_launcher            # GUI launcher (24MB)
   ├── deps/                        # Third-party dependencies
   │   ├── ecal_5.13.3-1ppa1~jammy_amd64.deb
   │   ├── mujoco_3.3.0_x86_64_Linux.deb
   │   ├── onnx_1.51.0_x86_64_jammy_Linux.deb
   │   └── zsibot_common*.deb
+  ├── docs/                        # Documentation
+  │   ├── README_CN.md
+  │   └── CHUNK_PACKAGES_GUIDE.md
   ├── scripts/                     # Build and configuration scripts
+  │   ├── build.sh                # One-click build script
+  │   ├── run_sim.sh              # Simulation launch script
   │   ├── build_mc.sh
   │   ├── build_mujoco_sdk.sh
   │   ├── download_uesim.sh
   │   ├── install_deps.sh
-  │   └── modify_config.sh
+  │   ├── modify_config.sh
+  │   └── release_manager/        # Release and package management
+  │       ├── install_chunks.sh
+  │       └── package_chunks_for_release.sh
   ├── src/
   │   ├── robot_mc/
   │   ├── robot_mujoco/
-  │   ├── navigo/
   │   └── UeSim/
-  ├── build.sh                     # One-click build script
-  ├── run_sim.sh                   # Simulation launch script
   └── README.md                    # Project documentation
   ```
 
@@ -94,8 +108,7 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
   4. **Install Dependencies**
      ```bash
-     cd matrix
-     ./build.sh
+     ./scripts/build.sh
      ```
      *(This script will automatically install all required dependencies.)*
 
@@ -175,7 +188,7 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
 
   Edit:
   ```bash
-  vim matrix/src/UeSim/jszr_mujoco_ue/Content/model/config/config.json
+  vim src/UeSim/Linux/jszr_mujoco_ue/Content/model/config/config.json
   ```
 
   Example snippet:
@@ -196,14 +209,14 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
       "width": 640,
       "sensor_type": "depth",
       "topic": "/image_raw/compressed/depth"
-  },
-  "lidar": {
-    "position": { "x": 13.011, "y": 2.329, "z": 17.598 },
-    "rotation": { "roll": 0.0, "pitch": 0.0, "yaw": 0.0 },
-    "sensor_type": "mid360",
-    "topic": "/livox/lidar"
+    },
+    "lidar": {
+      "position": { "x": 13.011, "y": 2.329, "z": 17.598 },
+      "rotation": { "roll": 0.0, "pitch": 0.0, "yaw": 0.0 },
+      "sensor_type": "mid360",
+      "topic": "/livox/lidar"
+    }
   }
-}
 ```
 
 - Adjust **pose** and **number of sensors** as needed  
@@ -263,5 +276,12 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   - [CARLA](https://carla.org/)
 
   We extend our gratitude to the developers and contributors of these projects for their invaluable efforts in advancing robotics and simulation technologies.
+
+  ---
+
+  ## 📚 Documentation
+
+  - [中文文档](docs/README_CN.md) - 中文使用指南
+  - [Chunk Packages 使用指南](docs/CHUNK_PACKAGES_GUIDE.md) - 模块化打包部署说明
 
   ---
