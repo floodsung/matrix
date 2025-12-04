@@ -78,16 +78,16 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   2. **Download MATRiX simulator**
 
      - **Method 1: Google Drive**  
-       [Google Drive Download Link](https://drive.google.com/file/d/1UUepVneqrK2r_-5a1rUPmYd5wiqWbBp0/view?usp=sharing)
+       [Google Drive Download Link](https://drive.google.com/file/d/1FjDGq0DoYdvrwiAP077Z-vJKUNozOU5h/view?usp=sharing)
 
        **Download via gdown:**
        ```bash
        pip install gdown
-       gdown https://drive.google.com/uc?id=1UUepVneqrK2r_-5a1rUPmYd5wiqWbBp0
+       gdown https://drive.google.com/uc?id=1FjDGq0DoYdvrwiAP077Z-vJKUNozOU5h
        ```
        
      - **Method 2: Baidu Netdisk**  
-       [Baidu Netdisk Link](https://pan.baidu.com/s/1thnDgDfQkmIqxnt-_7C4Cw?pwd=sicu)  
+       [Baidu Netdisk Link](https://pan.baidu.com/s/1-U-_5Uc4dKPJ7ab2Cgpg2Q?pwd=uera)  
 
 
       > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
@@ -188,8 +188,8 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   ## 🔧 Configuration Guide
 
   ### Custom scene setup
-  - Write your custom scene in a json file following the existing format in `matrix/scene/`, details in [doc](docs/README_2.md).
-  - Place your custom scene file in the `matrix/scene/` directory.
+  - Write your custom scene in a json file following the existing format in `matrix/scene/`, details in [Tutorial Doc](docs/README_2.md).
+  - Place your custom scene file in the `matrix/scene/scene.json` file.
   - Select the custom map from the launcher to load it in the simulation.
 
   ### Adjust Sensor Configuration
