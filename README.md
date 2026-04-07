@@ -71,16 +71,16 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   1. **Download MATRiX simulator**
 
      - **Method 1: Google Drive**  
-       [Google Drive Download Link](https://drive.google.com/file/d/1FjDGq0DoYdvrwiAP077Z-vJKUNozOU5h/view?usp=sharing)
+       [Google Drive Download Link](https://drive.google.com/file/d/1RBfrTVpP8r47--KkVMCtJp7UouCLf4rJ/view?usp=sharing)
 
        **Download via gdown:**
        ```bash
        pip install gdown
-       gdown https://drive.google.com/uc?id=1FjDGq0DoYdvrwiAP077Z-vJKUNozOU5h
+       gdown https://drive.google.com/uc?id=1RBfrTVpP8r47--KkVMCtJp7UouCLf4rJ
        ```
        
      - **Method 2: Baidu Netdisk**  
-       [Baidu Netdisk Link](https://pan.baidu.com/s/1-U-_5Uc4dKPJ7ab2Cgpg2Q?pwd=uera)  
+       [Baidu Netdisk Link](https://pan.baidu.com/s/119jE3uMezCpnC_ESo5iqpg?pwd=mk2k)  
 
 
       > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
@@ -96,7 +96,7 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   3. **Install Dependencies**
      ```bash
      cd matrix
-     ./build.sh
+     ./scripts/build.sh
      ```
      *(This script will automatically install all required dependencies.)*
 
