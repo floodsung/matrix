@@ -71,16 +71,16 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   1. **Download MATRiX simulator**
 
      - **Method 1: Google Drive**  
-       [Google Drive Download Link](https://drive.google.com/file/d/1RBfrTVpP8r47--KkVMCtJp7UouCLf4rJ/view?usp=sharing)
+       [Google Drive Download Link](https://drive.google.com/file/d/1LoTiWKsyU8PbIUZ9EhcfEbRtMhKm_OMP/view?usp=sharing)
 
        **Download via gdown:**
        ```bash
        pip install gdown
-       gdown https://drive.google.com/uc?id=1RBfrTVpP8r47--KkVMCtJp7UouCLf4rJ
+       gdown https://drive.google.com/uc?id=1LoTiWKsyU8PbIUZ9EhcfEbRtMhKm_OMP
        ```
        
      - **Method 2: Baidu Netdisk**  
-       [Baidu Netdisk Link](https://pan.baidu.com/s/119jE3uMezCpnC_ESo5iqpg?pwd=mk2k)  
+       [Baidu Netdisk Link](https://pan.baidu.com/s/1PpzrwsJ0CkZHOZT4MaNfHQ?pwd=dku4)  
 
 
       > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
