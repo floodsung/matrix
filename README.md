@@ -1,408 +1,243 @@
+<h1>
+  <a href="#"><img alt="Forest" src="demo_gif/Forest.png" width="100%"/></a>
+</h1>
+
 # MATRiX
-
-<div align="center">
-  <a href="#">
-    <img alt="Forest" src="demo_gif/Forest.png" width="800" height="450"/>
-  </a>
-</div>
-
-<div align="center">
-
-[![English](https://img.shields.io/badge/Language-English-blue)](README.md)
-[![中文](https://img.shields.io/badge/语言-中文-red)](docs/README_CN.md)
-
-</div>
-
-> **Last Updated:** 2026-01-06
-
 MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal Engine 5**, and **CARLA** to provide high-fidelity, interactive environments for quadruped robot research. Its software-in-the-loop architecture enables realistic physics, immersive visuals, and optimized sim-to-real transfer for robotics development and deployment.
 
-## 💬 Community
-
-**Join our WeChat group for MATRiX simulation discussions:**
-
-<div align="center">
-  <img src="demo_gif/wechat.png" alt="WeChat Group QR Code" style="height: 280px; width: auto; margin: 0 12px;"/>
-  <p><em>Scan to join MATRiX simulation community</em></p>
-</div>
-
----
-
-## 📂 Directory Structure
-
-```text
-matrix/
-├── bin/                         # Executable binaries (created after build)
-├── config/                      # System configuration files
-│   └── config.json              # Core sensor and system settings
-├── demo_gif/                    # Visual assets for documentation
-│   ├── Maps/                    # Preview images for different maps
-│   ├── Robot/                   # Preview images for supported robots
-│   └── Scene/                   # Demos for custom scene setups
-├── deps/                        # Third-party dependencies (.deb packages)
-│   ├── ecal_*.deb               # eCAL communication library
-│   ├── mujoco_*.deb             # MuJoCo simulation engine
-│   └── ...                      # Other essential dependencies
-├── docs/                        # Project documentation
-│   ├── README_CN.md             # Chinese version of README
-│   ├── CHUNK_PACKAGES_GUIDE.md  # Guide for modular chunk packages
-│   └── ...                      # Development and maintenance guides
-├── dynamicmaps/                 # Resources for dynamic map loading
-├── releases/                    # Storage for downloaded chunk packages
-│   ├── assets-*.tar.gz          # Assets package (binaries, models, libraries)
-│   ├── base-*.tar.gz            # Base package (core files and default map)
-│   ├── shared-*.tar.gz          # Shared resources for multiple maps
-│   ├── *-*.tar.gz               # Individual map data packages
-│   └── manifest-*.json          # Package version manifest
-├── rviz/                        # ROS visualization (RViz) configurations
-│   └── matrix.rviz              # Preconfigured RViz layout
-├── scene/                       # Custom scene description files (JSON)
-│   ├── scene.json               # Currently active scene configuration
-│   └── scene_example_*.json     # Templates for custom scenes
-├── scripts/                     # Utility and build scripts
-│   ├── build.sh                 # One-click build and setup (Entry point)
-│   ├── run_sim.sh               # Simulation launch script (CLI)
-│   ├── install_deps.sh          # Dependency installation tool
-│   └── release_manager/         # Release and package management tools
-├── src/                         # Source code
-│   ├── robot_mc/                # Motion control core logic
-│   ├── robot_mujoco/            # MuJoCo simulation interface
-│   └── UeSim/                   # Unreal Engine high-fidelity interface
-├── LICENSE                      # Project license
-└── README.md                    # Project documentation (this file)
-```
-
----
-
-## ⚙️ Environment Dependencies
-
-- **Operating System:** Ubuntu 22.04
-- **Recommended GPU:** NVIDIA RTX 4060 or above (**NVIDIA Driver >= 535** recommended)
-- **Unreal Engine:** Integrated (no separate installation required)
-- **Build Environment:**
-  - GCC/G++ ≥ C++11
-  - CMake ≥ 3.16
-- **MuJoCo:** 3.3.0 open-source version (integrated)
-- **Remote Controller:** Required (Recommended: *Logitech Wireless Gamepad F710*)
-- **Python Dependency:** `gdown` (for downloading chunk packages from Google Drive)
-- **ROS Dependency:** `ROS_humble`
-
----
-
-## 🚀 Installation & Build
-
-1. **LCM Installation**
-   ```bash
-   sudo apt update
-   sudo apt install -y cmake-qt-gui gcc g++ libglib2.0-dev python3-pip
-   ```
-   Download the source code from [LCM Releases](https://github.com/lcm-proj/lcm/releases) and extract it.
-
-   Build and install:
-   ```bash
-   cd lcm-<version>
-   mkdir build
-   cd build
-   cmake ..
-   make -j$(nproc)
-   sudo make install
-   ```
-   > **Note:** Replace `<version>` with the actual extracted LCM directory name.
-
-2. **Clone MATRiX Repository**
-   ```bash
-   git clone https://github.com/zsibot/matrix.git
-   cd matrix
-   ```
-
-3. **Install Dependencies**
-   ```bash
-   ./scripts/build.sh
-   ```
-   *(This script will automatically install all required dependencies.)*
+  ---
+
+  ## 📢 Latest Updates
+
+  - **New Maps:** Added CALIBRATION、HOME、LABORATORY 3 new maps for diverse testing scenarios.
+  - **Mujoco deep integration:** MUjoco 500 hz running in the background for high-frequency physics simulation， no standalone mujoco window needed，only third-party robot model window will pop up.
+  - **Multi-robot support:** Added multi-robot simulation capabilities for collaborative robotics research.
+  - **HighLevel API:** Added high-level API for easier robot control and environment interaction.
+  - **PixelStreaming support:** Added PixelStreaming support for remote visualization and control.
+
+
+  ---
 
-4. **Install Chunk Packages (Modular Installation)**
+  ## 📂 Directory Structure
 
-   MATRiX uses a modular chunk package system that allows you to download only what you need:
+  ```text
+  ├── deps/                        # Third-party dependencies
+  │   ├── ecal_5.13.3-1ppa1~jammy_amd64.deb
+  │   ├── mujoco_3.3.0_x86_64_Linux.deb
+  │   ├── onnx_1.51.0_x86_64_jammy_Linux.deb
+  │   └── zsibot_common*.deb
+  ├── scripts/                     # Build and configuration scripts
+  │   ├── build_mc.sh
+  │   ├── build_mujoco_sdk.sh
+  │   ├── download_uesim.sh
+  │   ├── install_deps.sh
+  │   └── modify_config.sh
+  ├── docs/                        # Documentation and guides
+  ├── config/                      # Robot and sensor configuration files
+  ├── scene/                       # Custom scene files
+  ├── dynamicmaps/                # Dynamic ground bin files
+  ├── src/
+  │   ├── robot_mc/
+  │   ├── robot_mujoco/
+  │   ├── navigo/
+  │   └── UeSim/
+  ├── build.sh                     # One-click build script
+  ├── run_sim.sh                   # Simulation launch script
+  ├── sim_launcher                 # Launcher UI
+  ├── README_CN.md                 # Chinese Project documentation
+  └── README.md                    # Project documentation
+  
+  ```
 
-   - **Assets Package** (Required): Runtime binaries, shared libraries, ONNX models, 3D models, and other essential files
-   - **Base Package** (Required): Core files and EmptyWorld map
-   - **Shared Resources** (Recommended): Shared resources used by multiple maps
-   - **Map Packages** (Optional): Individual maps that can be downloaded on demand
+  ---
 
-   **Quick Installation:**
+  ## ⚙️ Environment Dependencies
 
-   ```bash
-   bash scripts/release_manager/install_chunks.sh 0.1.1
-   ```
+  - **Operating System:** Ubuntu 22.04  
+  - **Recommended GPU:** NVIDIA RTX 4060 or above  
+  - **Unreal Engine:** Integrated (no separate installation required)  
+  - **Build Environment:**  
+    - GCC/G++ ≥ C++11  
+    - CMake ≥ 3.16  
+  - **MuJoCo:** 3.3.0 open-source version (integrated)  
+  - **Remote Controller:** Required (Recommended: *Logitech Wireless Gamepad F710*)  
+  - **Python Dependency:** `gdown`  
+  - **ROS Dependency:** `ROS_humble`  
 
-   > 📖 **For Details:** For complete information about the chunk package system, including package sizes, map list, installation verification, and FAQs, see the [Chunk Packages Guide](docs/CHUNK_PACKAGES_GUIDE.md).
+  ---
 
-   **Alternative: Manual Installation (via Cloud Storage)**
+  ## 🚀 Installation & Build
 
-   If GitHub access is slow, follow these steps to install manually:
+  1. **Download MATRiX simulator**
 
-   1. **Download** the package archive:
-      - **Google Drive**: [Download Link](https://drive.google.com/file/d/1e_WjFg_MJgF4X-tqR9KyjC7h1rQiMQqN/view?usp=sharing)
-      - **Baidu Netdisk**: [Download Link](https://pan.baidu.com/s/1o-7lICRBvshj--zq3OBTNA?pwd=nwjy)
-   2. **Extract** all `.tar.gz` and `.json` files into the `matrix/releases/` directory.
-   3. **Install** using the local script:
-      ```bash
-      bash scripts/release_manager/install_chunks_local.sh 0.1.1
-      ```
+     - **Method 1: Google Drive**  
+       [Google Drive Download Link](https://drive.google.com/file/d/1FjDGq0DoYdvrwiAP077Z-vJKUNozOU5h/view?usp=sharing)
 
-      > ⚠️ **Important:** Ensure all files (base, assets, shared, etc.) are placed directly in `matrix/releases/` before running the installation script.
+       **Download via gdown:**
+       ```bash
+       pip install gdown
+       gdown https://drive.google.com/uc?id=1FjDGq0DoYdvrwiAP077Z-vJKUNozOU5h
+       ```
+       
+     - **Method 2: Baidu Netdisk**  
+       [Baidu Netdisk Link](https://pan.baidu.com/s/1-U-_5Uc4dKPJ7ab2Cgpg2Q?pwd=uera)  
+
+
+      > **Note:** When downloading from the cloud storage links, please ensure you select the latest version for the best compatibility and features.
+
+      > **Previous version link**: [Link](https://drive.google.com/drive/folders/1JN9K3m6ZvmVpHY9BLk4k_Yj9vndyh8nT?usp=sharing)
+
+
+  2. **Unzip**
+     ```bash
+     unzip <downloaded_filename>
+     ```
 
----
+  3. **Install Dependencies**
+     ```bash
+     cd matrix
+     ./build.sh
+     ```
+     *(This script will automatically install all required dependencies.)*
 
-## ▶️ Running the Simulation
+  ---
 
-<div align="center">
-  <img src="demo_gif/Launcher.png" alt="Simulation Running Example" width="640" height="360"/>
-</div>
+  ## 🏞️ Demo Environments
 
-## 🐕 Simulation Setup Guide
+  <div align="center">
 
-1. **Run the launcher**
-   ```bash
-   cd matrix
-   ./bin/sim_launcher
-   ```
-2. **Select Robot Type**
-   Choose the type of quadruped robot for the simulation.
+  | **Map**         | **Demo Screenshot**                          | **Map**         | **Demo Screenshot**                          |
+  |:---------------:|:-------------------------------------------:|:---------------:|:-------------------------------------------:|
+  | **Venice**      | <img src="demo_gif/Venice.gif" alt="Matrix Demo Screenshot" width="350" height="200"/> | **Warehouse**   | <img src="demo_gif/whmap.gif" alt="Matrix Warehouse Demo" width="350" height="200"/> |
+  | **Town10**      | <img src="demo_gif/Town10.gif" alt="Matrix Town Demo" width="350" height="200"/>       | **Yard**        | <img src="demo_gif/Yardmap.gif" alt="Matrix Yardmap Demo" width="350" height="200"/> |
 
-3. **Select Environment**
-   Pick the desired simulation environment or map.
+  </div>
 
-4. **Choose Control Device**
-   Select your preferred control device:
-   - **Gamepad Control**
-   - **Keyboard Control**
+  > **Guide:** For the full robot list, map descriptions, and preview images, see [docs/Robots_Maps_Descriptions.md](docs/Robots_Maps_Descriptions.md).
 
-5. **Enable Headless Mode (Optional)**
-   Toggle the **Headless Mode** option for running the simulation without a graphical interface.
+  > **Note:** The above screenshots showcase high-fidelity UE5 rendering for robotics and reinforcement learning experiments.
 
-6. **Launch Simulation**
-   Click the **Launch Simulation** button to start the simulation.
+  ---
 
-During simulation, if the UE window is active, you can press **ALT + TAB** to switch out of it.
-Then, use the control-mode toggle button on the launcher to switch between gamepad and keyboard control at any time.
+  ## 📚 Detailed Guides
 
-## 🎮 Remote Controller Instructions (Gamepad Control Guide)
+  For step-by-step setup and advanced usage, refer to the dedicated tutorials:
 
-| Action                              | Controller Input                        |
-|--------------------------------------|-----------------------------------------|
-| Stand / Sit                         | Hold **LB** + **Y**                     |
-| Move Forward / Back / Left / Right  | **Left Stick** (up/down/left/right)      |
-| Rotate Left / Right                 | **Right Stick** (left / right)          |
-| Jump Forward                        | Hold **RB** + **Y**                     |
-| Jump in Place                       | Hold **RB** + **X**                     |
-| Somersault                          | Hold **RB** + **B**                     |
+  - **Custom Scene Tutorial:** [docs/Custom_Map_Tutorial.md](docs/Custom_Map_Tutorial.md)
+  - **Custom Robot Tutorial:** [docs/Custom_Robot_Tutorial.md](docs/Custom_Robot_Tutorial.md)
+  - **Sensor Configuration Tutorial:** [docs/Sensor_Config_Tutorial.md](docs/Sensor_Config_Tutorial.md)
+  - **Multi-Robot Tutorial:** [docs/Multi_Robot_Tutorial.md](docs/Multi_Robot_Tutorial.md)
+  - **Docker Tutorial:** [docs/Docker_Tutorial.md](docs/Docker_Tutorial.md)
+  - **Pixel Streaming Guide:** [docs/pixelstreaming_tutorial.md](docs/pixelstreaming_tutorial.md)
+  - **Robots and Maps Reference:** [docs/Robots_Maps_Descriptions.md](docs/Robots_Maps_Descriptions.md)
 
+  ---
 
-## ⌨️ Remote Controller Instructions (Keyboard Control Guide)
+  ## ▶️ Running the Simulation
 
-| Action                              | Controller Input                        |
-|--------------------------------------|-----------------------------------------|
-| Stand                               | U                                       |
-| Sit                                 | Space                                   |
-| Move Forward / Back / Left / Right  | W / S / A / D                           |
-| Rotate Left / Right                 | Q / E                                   |
-| Start                               | Enter                                   |
+  <div align="center">
+    <img src="demo_gif/Launcher.png" alt="Simulation Running Example" width="100%" />
+  </div>
 
-Press the **V** key to toggle between free camera and robot view.
+  ## 🐕 Simulation Setup Guide
 
-Hold the **left mouse button** to temporarily switch to free camera mode.
+  1. **Run the launcher**
+  ```bash
+      cd matrix
+      ./open_sim_launcher
+  ```
+  2. **Select Robot Type**  
+    Choose the type of quadruped robot for the simulation.
 
----
+  3. **Select Environment**  
+    Pick the desired simulation environment or map.
 
-## 🏞️ Demo Environments
+  4. **Choose Control Device**  
+    Select your preferred control device:  
+    - **Gamepad Control**  
+    - **Keyboard Control**
 
-<div align="center">
+  5. **Enable Headless Mode (Optional)**  
+    Toggle the **Headless Mode** option for running the simulation without a graphical interface.
 
-| **Map**         | **Demo Screenshot**                          | **Map**         | **Demo Screenshot**                          |
-|:---------------:|:-------------------------------------------:|:---------------:|:-------------------------------------------:|
-| **Venice**      | <img src="demo_gif/Venice.gif" alt="Matrix Demo Screenshot" width="350" height="200"/> | **Warehouse**   | <img src="demo_gif/whmap.gif" alt="Matrix Warehouse Demo" width="350" height="200"/> |
-| **Town10**      | <img src="demo_gif/Town10.gif" alt="Matrix Town Demo" width="350" height="200"/>       | **Yard**        | <img src="demo_gif/Yardmap.gif" alt="Matrix Yardmap Demo" width="350" height="200"/> |
+  6. **Launch Simulation**  
+    Click the **Launch Simulation** button to start the simulation.
 
-</div>
+  During simulation, if the UE window is active, you can press **ALT + TAB** to switch out of it.  
+  Then, use the control-mode toggle button on the launcher to switch between gamepad and keyboard control at any time.
+  ## 🎮 Remote Controller Instructions (Gamepad Control Guide)
 
-> **Note:** [Map Descriptions](docs/README_1.md).
+  | Action                              | Controller Input                        |
+  |--------------------------------------|-----------------------------------------|
+  | Stand / Sit                         | Hold **LB** + **Y**                     |
+  | Move Forward / Back / Left / Right  | **Left Stick** (up / down / left / right)|
+  | Rotate Left / Right                 | **Right Stick** (left / right)          |
+  | Jump Forward                        | Hold **RB** + **Y**                     |
+  | Jump in Place                       | Hold **RB** + **X**                     |
+  | Somersault                          | Hold **RB** + **B**                     |
+  
+  ## ⌨️ Remote Controller Instructions (Keyboard Control Guide)
 
-> **Note:** The above screenshots showcase high-fidelity UE5 rendering for robotics and reinforcement learning experiments.
+  | Action                              | Controller Input                        |
+  |--------------------------------------|-----------------------------------------|
+  | Stand                               | U                                       |
+  | Sit                                 | Space                                   |
+  | Move Forward / Back / Left / Right  | W / S / A / D                           |
+  | Rotate Left / Right                 | Q / E                                   |
+  | Start                               | Enter                                   |
 
----
+  Press the **V** key to toggle between free camera and robot view.  
 
-## 🛠️ Script Usage Guide
+  Hold the **left mouse button** to temporarily switch to free camera mode.
 
-MATRiX provides various scripts to help you build, install, and run the simulator. Here's how to use them effectively:
+  ---
 
-### 📋 Script Categories
+  ## 🤖 Multi-Robot Simulation *(Temporarily Unavailable)*
 
-#### **User Scripts** (For End Users)
+> ⚠️ **This feature is temporarily unavailable. The content below is for reference only and not yet functional.**
 
-| Script | Purpose | Usage |
-|--------|---------|-------|
-| `build.sh` | One-click build and dependency installation | `./scripts/build.sh` |
-| `run_sim.sh` | Launch simulation | `./scripts/run_sim.sh <robot_type> <map_id>` |
-| `install_chunks.sh` | Download and install chunk packages from GitHub | `bash scripts/release_manager/install_chunks.sh <version>` |
-| `install_chunks_local.sh` | Install chunk packages from local releases/ directory | `bash scripts/release_manager/install_chunks_local.sh <version>` |
+MATRiX supports simultaneous simulation of multiple robots in the same environment.
 
-#### **Developer Scripts** (For Contributors)
+- Define multiple robot instances in `config/config.json`
+- Assign unique `state_port` and `cmd_port` values to each robot
+- Configure sensors independently for each robot as needed
 
-| Script | Purpose | Usage |
-|--------|---------|-------|
-| `build_mc.sh` | Build MC control module | `./scripts/build_mc.sh` |
-| `upload_to_release.sh` | Upload packages to GitHub Releases (with auto-consistency check and publish) | `bash scripts/release_manager/upload_to_release.sh <version>` |
-| `split_large_files.sh` | Split large files (>2GB) for GitHub | `bash scripts/release_manager/split_large_files.sh <file_path>` |
+> 📘 **Detailed setup and examples:** [docs/Multi_Robot_Tutorial.md](docs/Multi_Robot_Tutorial.md)
 
-#### **Offline Installation (No Internet)**
+  ---
 
-```bash
-# 1. On a machine with internet, download packages
-bash scripts/release_manager/install_chunks.sh 0.1.1
+  ## 🔧 Configuration Guide
 
-# 2. Copy the releases/ directory to offline machine
+  ### Custom scene setup
+  - Define your custom scene in `scene/scene.json`
+  - Select **Custom Map** in the launcher to load it
+  - UE initializes the scene from the JSON file and synchronizes it with MuJoCo
+  - Full format, supported elements, and examples: [docs/Custom_Map_Tutorial.md](docs/Custom_Map_Tutorial.md)
 
-# 3. On offline machine, install from local files
-bash scripts/release_manager/install_chunks_local.sh 0.1.1
-# → Installs assets package (required) and all other packages from releases/ directory
-```
+  ### Custom robot setup
 
-#### **Adding More Maps Later**
+  - MATRiX provides a built-in `custom` robot type for integrating your own quadruped MuJoCo model.
+  - Replace the default robot definition in `src/UeSim/Linux/zsibot_mujoco_ue/Content/model/custom/custom.xml` with your own model.
+  - Keep `src/UeSim/Linux/zsibot_mujoco_ue/Content/model/custom/custom.xml` and `src/robot_mujoco/robots/custom/custom.xml` synchronized.
+  - Update IMU, camera, and other sensor definitions in `custom.xml` so they match your robot structure and mounting locations.
+  - Select `custom` in the launcher and enable MuJoCo mode to run your own controller in the expected workflow.
+  - Full integration steps and troubleshooting: [docs/Custom_Robot_Tutorial.md](docs/Custom_Robot_Tutorial.md)
 
-```bash
-# Option 1: Download and install new maps
-bash scripts/release_manager/install_chunks.sh 0.1.1
-# → Select additional maps to download
+  ### Adjust Sensor Configuration
 
-# Option 2: If files already in releases/, just install
-bash scripts/release_manager/install_chunks_local.sh 0.1.1
-# → Installs assets package (if needed) and all available maps from releases/
-```
+  - Edit `config/config.json` to configure robot sensors used at runtime.
+  - You can start from `config/config_default.json`, `config/config_wideanglecamera.json`, or `config/config_panorama.json`, then copy the result to `config/config.json`.
+  - Typical configurable items include sensor **pose**, **topic**, **frequency**, **resolution**, **field of view**, and **number of sensors**.
+  - For panorama sensors, configure `height`; the default panorama `width` is `2 x height`.
+  - Removing unused sensors can improve **UE FPS performance**.
+  - Full sensor setup guide: [docs/Sensor_Config_Tutorial.md](docs/Sensor_Config_Tutorial.md).
 
-#### **Reinstalling Packages**
+  ### Pixel Streaming
 
-```bash
-# Quick reinstall from local releases/ directory
-bash scripts/release_manager/install_chunks_local.sh 0.1.1
-# → No download needed, fast installation
-```
-
-### 💡 Script Selection Guide
-
-**When to use `install_chunks.sh`:**
-- ✅ First-time installation
-- ✅ Need to download latest version from GitHub
-- ✅ Want to selectively choose maps to download
-- ✅ Have internet connection
-
-**When to use `install_chunks_local.sh`:**
-- ✅ Files already downloaded to `releases/` directory
-- ✅ Offline installation (no internet)
-- ✅ Quick reinstall of existing packages
-- ✅ Want to install all available maps automatically
-
-### 📁 Understanding File Locations
-
-```text
-matrix/
-├── releases/                    # Downloaded packages (created after install_chunks.sh)
-│   ├── assets-0.1.1.tar.gz     # Assets package (required)
-│   ├── base-0.1.1.tar.gz       # Base package (required)
-│   ├── shared-0.1.1.tar.gz     # Shared resources (recommended)
-│   └── *.tar.gz                # Map packages (optional)
-│
-└── src/UeSim/Linux/zsibot_mujoco_ue/  # Runtime directory (where packages are installed)
-    └── Content/Paks/            # Installed chunk files (.pak, .ucas, .utoc)
-```
-
-**Key Points:**
-- `matrix/releases/` = Storage for downloaded packages (source files)
-- `src/UeSim/Linux/zsibot_mujoco_ue/Content/Paks/` = Runtime location (installed files)
-- `install_chunks.sh` downloads to `matrix/releases/` AND installs to runtime directory
-- `install_chunks_local.sh` only installs from `matrix/releases/` to runtime directory
-
-> **Tip:** Keep files in `matrix/releases/` directory for future use. You can delete them to save space, but you'll need to re-download if you want to reinstall.
-
----
-
-## 🗺️ Map ID Reference
-
-When using `run_sim.sh`, you can specify maps by ID:
-
-| Map ID | Map Name | Description |
-|--------|----------|-------------|
-| 0 | CustomWorld | Custom map |
-| 1 | Warehouse | Warehouse environment |
-| 2 | Town10World | Town10 map |
-| 3 | YardWorld | Yard environment |
-| 4 | CrowdWorld | Crowd simulation |
-| 5 | VeniceWorld | Venice map |
-| 6 | HouseWorld | House environment |
-| 7 | RunningWorld | Running track |
-| 8 | Town10Zombie | Town10 with zombies |
-| 9 | IROSFlatWorld | IROS flat terrain |
-| 10 | IROSSlopedWorld | IROS sloped terrain |
-| 11 | IROSFlatWorld2025 | IROS flat terrain 2025 |
-| 12 | IROSSloppedWorld2025 | IROS sloped terrain 2025 |
-| 13 | OfficeWorld | Office environment |
-| 14 | 3DGSWorld | 3D Gaussian Splatting world |
-| 15 | MoonWorld | Moon environment |
-
-**Usage Examples:**
-```bash
-./scripts/run_sim.sh 1 1   # XGB robot, Warehouse map
-./scripts/run_sim.sh 4 4   # GO2 robot, CrowdWorld map
-./scripts/run_sim.sh 1 0   # XGB robot, CustomWorld map
-```
-
----
-
-## 🔧 Configuration Guide
-
-### Custom scene setup
-- Write your custom scene in a json file following the existing format in `matrix/scene/`, details in [Tutorial Doc](docs/README_2.md).
-- Place your custom scene file in the `matrix/scene/scene.json` file.
-- Select the custom map from the launcher to load it in the simulation.
-
-### Adjust Sensor Configuration
-
-Edit:
-```bash
-vim matrix/config/config.json
-```
-
-Example snippet:
-```json
-"sensors": {
-  "camera": {
-    "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
-    "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
-    "height": 1080,
-    "width": 1920,
-    "sensor_type": "rgb",
-    "topic": "/image_raw/compressed"
-  },
-  "depth_sensor": {
-    "position": { "x": 29.0, "y": 0.0, "z": 1.0 },
-    "rotation": { "roll": 0.0, "pitch": 15.0, "yaw": 0.0 },
-    "height": 480,
-    "width": 640,
-    "sensor_type": "depth",
-    "topic": "/image_raw/compressed/depth"
-  },
-  "lidar": {
-    "position": { "x": 13.011, "y": 2.329, "z": 17.598 },
-    "rotation": { "roll": 0.0, "pitch": 0.0, "yaw": 0.0 },
-    "sensor_type": "mid360",
-    "topic": "/livox/lidar"
-  }
-}
-```
-
-- Adjust **pose** and **number of sensors** as needed
-- Remove unused sensors to improve **UE FPS performance**
+  - Pixel Streaming allows you to view the simulation remotely in a browser
+  - Start the signalling/web server first, then enable Pixel Streaming in MATRiX
+  - Default local access is through `http://127.0.0.1`
+  - Full setup and troubleshooting guide: [docs/pixelstreaming_tutorial.md](docs/pixelstreaming_tutorial.md)
 
 ---
 
@@ -412,61 +247,82 @@ Example snippet:
 - To obtain a grayscale depth image, use the following code snippet:
 
 ```cpp
-void callback(const sensor_msgs::msg::Image::SharedPtr msg)
-{
-  cv::Mat depth_image;
-  depth_image = cv::Mat(HEIGHT, WIDTH, CV_32FC1, const_cast<uchar*>(msg->data.data()));
-}
+  void callback(const sensor_msgs::msg::Image::SharedPtr msg)
+  {
+    cv::Mat depth_image;
+    depth_image = cv::Mat(HEIGHT, WIDTH, CV_32FC1, const_cast<uchar*>(msg->data.data()));
+  }
 ```
 
----
+  ### Example Subscriber Code
 
-## 📡 Sensor Data Visualization in RViz
+  For a complete example of how to subscribe to and process sensor data (RGB, Depth, LiDAR) from MATRiX, please refer to the [uesim_subscriber](https://github.com/liuxinxinbit/uesim_subscriber) repository.
 
-To visualize sensor data in RViz:
+  **Features:**
 
-1. **Launch the simulation** as described above.
-2. **Start RViz**:
-   ```bash
-   rviz2
-   ```
-3. **Load the configuration**:
-   Open `rviz/matrix.rviz` in RViz for a pre-configured view.
+  - 📷 RGB Camera Data Subscription - Subscribes to compressed images and displays them in real-time.
+  - 🔍 Depth Image Processing - Receives depth data and visualizes it using heatmap coloring.
+  - ☁️ Point Cloud Data Processing - Subscribes to LiDAR point cloud data and converts it to PCL format.
+  - 📊 Real-time Visualization - Uses OpenCV windows to display sensor data in real-time.
 
-<div align="center">
-  <img src="./demo_gif/rviz2.png" alt="RViz Visualization Example" width="1280" height="720"/>
-</div>
+  **Clone and Build:**
+  ```bash
+  # Go to your workspace src folder
+  cd ~/ros2_ws/src
+  
+  # Clone the repository
+  git clone https://github.com/liuxinxinbit/uesim_subscriber.git
+  
+  # Build the package
+  cd ~/ros2_ws
+  colcon build --packages-select uesim_subscriber
+  
+  # Source the workspace
+  source install/setup.bash
+  
+  # Run the subscriber node
+  ros2 run uesim_subscriber subscriber_uesim_vc
+  ```
+  To visualize sensor data in RViz:
 
-> **Tip:** Ensure your ROS environment is properly sourced and relevant topics are being published.
+  1. **Launch the simulation** as described above.
+  2. **Start RViz**:
+    ```bash
+    rviz2
+    ```
+  3. **Load the configuration**:  
+    Open `rviz/matrix.rviz` in RViz for a pre-configured view.
 
-## 📋 TODO List
+  <div align="center">
+    <img src="./demo_gif/rviz2.png" alt="RViz Visualization Example" width="1280" height="720"/>
+  </div>
+  
+  > **Tip:** If you want to use the depth camera data, you need to subscribe to the `depth` topic, depth image show not properly in rviz, this is because the depth image is float32, you need to convert it to uint8.
 
-- [x] IROS competition map(4 maps)
-- [x] Support for third-party quadruped robot models
-- [x] Support for custom scene based on json file
-- [x] Add 3DGS reconstruction Map
-- [x] Add Moon map based on dynamic ground
-- [ ] Add multi-robot simulation capabilities
+  > **Tip:** Ensure your ROS environment is properly sourced and relevant topics are being published.
 
----
-## 🙏 Acknowledgements
 
-This project builds upon the incredible work of the following open-source projects:
+  ## 🐳 Docker
 
-- [MuJoCo-Unreal-Engine-Plugin](https://github.com/oneclicklabs/MuJoCo-Unreal-Engine-Plugin)
-- [MuJoCo](https://github.com/google-deepmind/mujoco)
-- [Unreal Engine](https://github.com/EpicGames/UnrealEngine)
-- [CARLA](https://carla.org/)
+  MATRiX provides a Docker-based workflow for Linux with GPU acceleration and X11 forwarding.
 
-We extend our gratitude to the developers and contributors of these projects for their invaluable efforts in advancing robotics and simulation technologies.
+  - Build the image from the repository root with: `bash docker/docker_build_image.sh`
+  - Start the container with: `bash docker/docker_run_gpu.sh`
+  - Join the running container environment with: `bash docker/docker_join.sh`
+  - By default, the simulation inside the container can be launched via `./open_sim_launcher` from `/workspace`
+  - Full prerequisites, command behavior, and troubleshooting: [docs/Docker_Tutorial.md](docs/Docker_Tutorial.md)
 
----
+  ---
 
-## 📚 Documentation
+  ## 🙏 Acknowledgements
 
-- [Chinese Documentation](docs/README_CN.md) - User Guide in Chinese
-- [Chunk Packages Guide](docs/CHUNK_PACKAGES_GUIDE.md) - Modular package deployment guide
-- [Robot Types & Maps](docs/README_1.md) - Detailed descriptions of robots and maps
-- [Custom Scene Guide](docs/README_2.md) - Creating custom scenes with JSON files
+  This project builds upon the incredible work of the following open-source projects:
 
----
+  - [MuJoCo-Unreal-Engine-Plugin](https://github.com/oneclicklabs/MuJoCo-Unreal-Engine-Plugin)  
+  - [MuJoCo](https://github.com/google-deepmind/mujoco)  
+  - [Unreal Engine](https://github.com/EpicGames/UnrealEngine)
+  - [CARLA](https://carla.org/)
+
+  We extend our gratitude to the developers and contributors of these projects for their invaluable efforts in advancing robotics and simulation technologies.
+
+  ---
