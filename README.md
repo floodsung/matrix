@@ -26,6 +26,7 @@ MATRiX is an advanced simulation platform that integrates **MuJoCo**, **Unreal E
   │   ├── mujoco_3.3.0_x86_64_Linux.deb
   │   ├── onnx_1.51.0_x86_64_jammy_Linux.deb
   │   └── zsibot_common*.deb
+  |   └── robot-forward_0.2.6_amd64.deb
   ├── scripts/                     # Build and configuration scripts
   │   ├── build_mc.sh
   │   ├── build_mujoco_sdk.sh
