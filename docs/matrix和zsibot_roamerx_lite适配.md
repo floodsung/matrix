@@ -77,6 +77,7 @@ chmod +x script/dep/install_all.sh
 ./script/dep/install_all.sh
 
 # 注意⚠️： Install robot-forward package (.deb)
+cd matrix/deps
 sudo apt update && sudo apt install -y ./robot-forward_0.2.6_amd64.deb
 ```
 
