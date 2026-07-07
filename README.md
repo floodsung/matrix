@@ -1,4 +1,4 @@
-# MATRiX — 机器人仿真平台 v1.0.0 Preview (Windows)
+# MATRiX — 机器人仿真平台 v1.0.0 Preview (Windows / Linux)
 
 MATRiX 是基于 Unreal Engine 构建的高保真机器人仿真平台，内置 MuJoCo 物理引擎，支持多种主流机器人模型、多传感器模拟与多场景切换，通讯层采用 **Zenoh** 协议，即下即用，无需 ROS 环境。
 
@@ -24,15 +24,15 @@ MATRiX 是基于 Unreal Engine 构建的高保真机器人仿真平台，内置 
 
 | 项目 | 最低配置 | 推荐配置 |
 |------|---------|---------|
-| 操作系统 | Windows 10 64-bit | Windows 11 64-bit |
+| 操作系统 | Windows 64-bit / Linux 64-bit | Windows 64-bit / Linux 64-bit |
 | CPU | 6 核 @ 2.5 GHz | 12 核 @ 3.5 GHz |
 | 内存 | 16 GB RAM | 32 GB RAM |
 | GPU | NVIDIA GTX 1070 (8 GB VRAM) | NVIDIA RTX 3080 / 4080 |
-| 显卡驱动 | NVIDIA Driver ≥ 526.x | 最新版 |
+| 显卡驱动 | Windows: NVIDIA Driver ≥ 526.x<br>Linux: NVIDIA Driver ≥ 535.x | 最新版 |
 | 磁盘空间 | 20 GB 可用空间 | SSD 50 GB |
 | Python（工具可选） | 3.10+ | 3.11 |
 
-> **注意**：仿真器使用 DirectX 12 与 Vulkan 后端，请确保显卡驱动为最新版本。
+> **注意**：Windows 版本使用 DirectX 12 / Vulkan 后端，Linux 版本使用 Vulkan 后端，请确保显卡驱动为最新版本。
 
 ---
 
@@ -69,7 +69,10 @@ MATRiX_v1.0.0_Preview/
 ## 快速开始
 
 ### 前置步骤：下载MATRiX和地图DLC
-下载地址：https://pan.baidu.com/s/1JTMi2H8WMC2T8_8fbspjzA?pwd=s9iy
+
+Linux 下载地址：https://pan.baidu.com/s/1I87hQ9C8XzIGXgbyWk3i9A?pwd=6sth
+
+Windows 下载地址：https://pan.baidu.com/s/1JTMi2H8WMC2T8_8fbspjzA?pwd=s9iy
 - 从云盘下载地图 DLC 到 `Windows/UeSim/Saved/DLCs` 文件夹，地图数量按需下载
 
 下载后将 `.pak` 文件放入上述目录，重启仿真器以加载新场景。
@@ -647,7 +650,7 @@ sg.PostProcessQuality=3     ; 后期处理质量（0-3）
 | 项目 | 信息 |
 |------|------|
 | 版本 | v1.0.0 Preview |
-| 平台 | Windows 64-bit |
+| 平台 | Windows 64-bit / Linux 64-bit |
 | 渲染引擎 | Unreal Engine |
 | 物理引擎 | MuJoCo |
 | 通讯协议 | Zenoh |
