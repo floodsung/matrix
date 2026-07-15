@@ -215,12 +215,14 @@ MATRIX_UE_MAX_FPS=60 \
 `instability_resets=0`。机器人在前进命令后从 `x≈0.02 m` 行至
 `x≈1.75 m`，根高度保持约 `0.79 m`，随后在 Apartment 碰撞边界前保持站立。
 
-同一命令的完整 Matrix+UE 90 秒 smoke 也正常退出并自动清理所有本次仿真子进程。
-退出前状态样本包含 66.981 秒有效 lowcmd：`physics_step_hz=200.003`、
-`ue_state_sync_hz=50.001`、`rtf=1.0`、`fall_detected=false`、
-`instability_resets=0`、平面位移 1.74649 m。UE 日志帧计数器在 44 个稳态一秒
-窗口中的均值为 56.483 FPS、中位数为 56.112 FPS，范围 53.106--59.465 FPS，
-上限设置为 60 FPS。
+最终集成提交 `45d022af88218185da11b5a2747c9c7c967117b1` 的完整 Matrix+UE
+90 秒 smoke 正常退出并自动清理所有本次仿真子进程。退出前状态样本包含
+66.941 秒有效 lowcmd：`physics_step_hz=200.307`、
+`ue_state_sync_hz=50.077`、`rtf=1.0015`、`fall_detected=false`、
+`instability_resets=0`、平面位移 1.76436 m。UE 日志帧计数器在 84 个稳态约一秒
+窗口中的均值为 56.618 FPS、中位数为 56.331 FPS，范围 54.217--59.898 FPS，
+上限设置为 60 FPS。退出后仿真使用的 5556、5860、5861 和 9999 端口均无残留
+监听进程。
 
 视觉截图保存在
 `outputs/screenshots/matrix_sonic_apartment_walk_20260715.png`。ApartmentWorld 的

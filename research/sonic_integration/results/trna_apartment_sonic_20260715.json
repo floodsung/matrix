@@ -16,7 +16,7 @@
     "scene_name": "ApartmentWorld",
     "native_scene": "scene_terrain_apart2.xml"
   },
-  "command": "MATRIX_UE_MAX_FPS=60 bash scripts/run_matrix_sonic.sh --scene 21 --urdf /home/trna/matrix-sonic-assets/g1_29dof/g1_29dof.urdf --control-source planner --walk-after 10 --vx 0.25 --max-seconds 90",
+  "command": "MATRIX_UE_MAX_FPS=60 MATRIX_UE_EXTRA_EXEC_CMDS='stat fps,stat unit' bash scripts/run_matrix_sonic.sh --scene 21 --urdf /home/trna/matrix-sonic-assets/g1_29dof/g1_29dof.urdf --control-source planner --walk-after 10 --vx 0.25 --max-seconds 90",
   "runtime_roots": {
     "matrix": "/home/trna/matrix-eval",
     "aue_sim": "/home/trna/aue-split-lab/repos/aue-sim",
@@ -50,21 +50,25 @@
   },
   "walk_smoke": {
     "launcher_exit_code": 0,
-    "status_sample_wall_s": 88.501,
+    "runtime_wall_s": 90.0,
+    "status_sample_wall_s": 88.522,
     "active_lowcmd": true,
-    "active_elapsed_s": 66.981,
-    "physics_step_hz": 200.003,
-    "ue_state_sync_hz": 50.001,
-    "real_time_factor": 1.0,
+    "active_elapsed_s": 66.941,
+    "physics_step_hz": 200.307,
+    "ue_state_sync_hz": 50.077,
+    "real_time_factor": 1.0015,
+    "final_sim_time_s": 68.42,
+    "control_frames": 4500,
+    "active_control_frames": 3421,
     "fall_detected": false,
     "instability_resets": 0,
     "min_root_z_m": 0.76529,
-    "root_up_z": 0.9996,
-    "root_displacement_xy_m": 1.74649,
+    "root_up_z": 0.99929,
+    "root_displacement_xy_m": 1.76436,
     "root_xyz_m": [
-      1.74104,
-      -0.13793,
-      0.79493
+      1.75724,
+      -0.15834,
+      0.79588
     ],
     "startup_band": {
       "enabled": true,
@@ -77,18 +81,19 @@
   "ue_fps_probe": {
     "cap_fps": 60,
     "method": "UE log frame-counter deltas over intervals between 0.8 and 1.2 seconds with stat fps and stat unit enabled",
-    "steady_intervals": 44,
-    "mean_fps": 56.483,
-    "median_fps": 56.112,
-    "min_fps": 53.106,
-    "max_fps": 59.465
+    "steady_intervals": 84,
+    "mean_fps": 56.618,
+    "median_fps": 56.331,
+    "min_fps": 54.217,
+    "max_fps": 59.898
   },
   "visual_evidence": {
     "local_path": "outputs/screenshots/matrix_sonic_apartment_walk_20260715.png",
     "trna_path": "/home/trna/matrix-eval/outputs/screenshots/matrix_sonic_apartment_walk_20260715.png",
     "width": 1870,
     "height": 1110,
-    "sha256": "ecb603acb7dcef258168b20d737d832579120d2b858478df183ad767a9e5c43f"
+    "sha256": "ecb603acb7dcef258168b20d737d832579120d2b858478df183ad767a9e5c43f",
+    "capture_note": "Captured during the same-day equivalent planner smoke before the final commit rerun; scene, URDF, physics model, and render path are unchanged."
   },
   "known_gaps": [
     "Live PICO device input was not available on TRNA, so control-source pico still needs a device-backed acceptance run.",
