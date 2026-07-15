@@ -71,6 +71,7 @@ To keep this README concise, detailed guides have been organized into the `docs/
 - [⚙️ Sensor Configuration](docs/Sensor_Config_Tutorial.md) - Adjusting cameras, LiDAR, and RViz visualization
 - [🌍 Custom Scene Guide](docs/Custom_Scene_Tutorial.md) - Building custom JSON-based environments
 - [🐕 Custom Robot Tutorial](docs/Custom_Robot_Tutorial.md) - Importing your own MuJoCo URDF models
+- [Matrix Overworld Adjacent V1](docs/OVERWORLD_ADJACENT_V1_CN.md) - Six-scene SONIC physics composition and its explicit UE visual gate
 
 **Advanced Features**
 - [🌐 Multi-Robot Tutorial](docs/Multi_Robot_Tutorial.md) - Simulating multiple robots simultaneously

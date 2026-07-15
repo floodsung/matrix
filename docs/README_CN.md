@@ -71,6 +71,7 @@ bash scripts/check_env.sh runtime
 - [⚙️ 传感器配置教程](Sensor_Config_Tutorial.md) - 调整相机、雷达及 RViz 数据可视化
 - [🌍 自定义场景指南](Custom_Scene_Tutorial_CN.md) - 通过 JSON 文件构建自定义测试环境
 - [🐕 自定义机器人教程](Custom_Robot_Tutorial.md) - 导入和集成第三方 MuJoCo 机器人模型
+- [Matrix Overworld 相邻场景 V1](OVERWORLD_ADJACENT_V1_CN.md) - 六场景 SONIC 物理拼接与明确的 UE 视觉门禁
 
 **高级功能**
 - [🌐 多机器人仿真](Multi_Robot_Tutorial.md) - 在同一场景中配置和控制多个机器人

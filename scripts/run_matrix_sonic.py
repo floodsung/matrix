@@ -27,6 +27,11 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--planner-bind", default="tcp://0.0.0.0:5556")
     parser.add_argument("--render-host", default="127.0.0.1")
     parser.add_argument("--render-port", type=int, default=9999)
+    parser.add_argument(
+        "--no-render-sync",
+        action="store_true",
+        help="Run physics/control without publishing state to a Matrix UE process",
+    )
     parser.add_argument("--physics-hz", type=float, default=200.0)
     parser.add_argument("--control-hz", type=float, default=50.0)
     parser.add_argument("--max-seconds", type=float, default=0.0)
@@ -43,6 +48,10 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--startup-band-hold", type=float, default=4.0)
     parser.add_argument("--startup-band-fade", type=float, default=3.0)
+    parser.add_argument("--spawn-x", type=float)
+    parser.add_argument("--spawn-y", type=float)
+    parser.add_argument("--spawn-z", type=float)
+    parser.add_argument("--spawn-yaw", type=float)
     return parser.parse_args()
 
 
@@ -68,6 +77,30 @@ def _root_up_z(qpos) -> float:
     """World-Z component of the floating base's local up axis."""
     _, x, y, _ = [float(value) for value in qpos[3:7]]
     return 1.0 - 2.0 * (x * x + y * y)
+
+
+def _apply_spawn_pose(
+    qpos,
+    *,
+    x: float | None,
+    y: float | None,
+    z: float | None,
+    yaw: float | None,
+) -> None:
+    """Apply an optional world-frame root pose to a free-base MuJoCo qpos."""
+    if len(qpos) < 7:
+        raise ValueError("spawn pose requires a free-base qpos with at least 7 values")
+    values = [value for value in (x, y, z, yaw) if value is not None]
+    if not all(math.isfinite(float(value)) for value in values):
+        raise ValueError("spawn pose values must be finite")
+    if x is not None:
+        qpos[0] = x
+    if y is not None:
+        qpos[1] = y
+    if z is not None:
+        qpos[2] = z
+    if yaw is not None:
+        qpos[3:7] = [math.cos(yaw / 2.0), 0.0, 0.0, math.sin(yaw / 2.0)]
 
 
 def _configure_reused_runtime(args: argparse.Namespace) -> None:
@@ -124,6 +157,16 @@ def main() -> int:
         raise SystemExit("--physics-hz must be positive")
     model.opt.timestep = 1.0 / args.physics_hz
     data = mujoco.MjData(model)
+    try:
+        _apply_spawn_pose(
+            data.qpos,
+            x=args.spawn_x,
+            y=args.spawn_y,
+            z=args.spawn_z,
+            yaw=args.spawn_yaw,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     mujoco.mj_forward(model, data)
     initial_root_xy = np.asarray(data.qpos[:2], dtype=np.float64).copy()
     physics_hz = 1.0 / float(model.opt.timestep)
@@ -139,7 +182,11 @@ def main() -> int:
     env = SimpleNamespace(model=model, data=data)
     sink = None
     planner = None
-    renderer = MatrixRenderPublisher(args.render_host, args.render_port)
+    renderer = (
+        None
+        if args.no_render_sync
+        else MatrixRenderPublisher(args.render_host, args.render_port)
+    )
     running = True
 
     def request_stop(_signum, _frame) -> None:
@@ -166,12 +213,17 @@ def main() -> int:
             planner = SonicPlannerSender(bind_endpoint=args.planner_bind, auto_start=True)
 
         expected_packet_size = packet_size(nq=model.nq, nv=model.nv, nu=model.nu)
+        render_target = (
+            "disabled"
+            if renderer is None
+            else f"{args.render_host}:{args.render_port}"
+        )
         print(
             "matrix-sonic-runtime "
             f"model={model_path} nq={model.nq} nv={model.nv} nu={model.nu} "
             f"ngeom={model.ngeom} physics_hz={physics_hz:.1f} "
             f"control_hz={args.control_hz:.1f} substeps={substeps} "
-            f"render={args.render_host}:{args.render_port} packet_bytes={expected_packet_size} "
+            f"render={render_target} packet_bytes={expected_packet_size} "
             f"control_source={args.control_source}",
             flush=True,
         )
@@ -251,13 +303,15 @@ def main() -> int:
                 min_root_z = min(min_root_z, root_z)
                 fall_detected = fall_detected or root_z < 0.5 or root_up_z < 0.5
 
-            renderer.send(data.time, data.qpos, data.qvel, data.ctrl)
+            if renderer is not None:
+                renderer.send(data.time, data.qpos, data.qvel, data.ctrl)
             control_frames += 1
 
             now = time.perf_counter()
             if now >= next_print:
                 window_wall = max(now - last_print_wall, 1e-9)
-                window_render = renderer.packet_count - last_render_count
+                render_count = renderer.packet_count if renderer is not None else 0
+                window_render = render_count - last_render_count
                 window_physics_steps = physics_steps - last_physics_steps
                 status = {
                     "active_elapsed_s": round(
@@ -276,6 +330,7 @@ def main() -> int:
                     "physics_step_hz": round(window_physics_steps / window_wall, 3),
                     "render_hz": round(window_render / window_wall, 3),
                     "render_packet_bytes": expected_packet_size,
+                    "render_sync_enabled": renderer is not None,
                     "ue_state_sync_hz": round(window_render / window_wall, 3),
                     "root_xyz": [round(float(value), 5) for value in data.qpos[:3]],
                     "root_displacement_xy_m": round(
@@ -296,7 +351,7 @@ def main() -> int:
                 print(f"matrix-sonic-runtime status={json.dumps(status, sort_keys=True)}", flush=True)
                 _atomic_json(args.status_file, status)
                 last_print_wall = now
-                last_render_count = renderer.packet_count
+                last_render_count = render_count
                 last_physics_steps = physics_steps
                 next_print = now + max(args.print_every, 0.1)
 
@@ -319,7 +374,8 @@ def main() -> int:
             planner.close()
         if sink is not None:
             sink.close()
-        renderer.close()
+        if renderer is not None:
+            renderer.close()
 
 
 if __name__ == "__main__":
