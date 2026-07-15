@@ -36,6 +36,11 @@ class NativeSceneInventoryTest(unittest.TestCase):
         )
         self.assertEqual(scene["launcher_ids"], [14, 16, 17])
 
+    def test_every_native_scene_has_a_complete_physics_proxy_count(self) -> None:
+        for scene in self.inventory["selectable_scenes"]:
+            proxy = scene["physics_proxy"]
+            self.assertEqual(proxy["geom_count"], sum(proxy["geom_types"].values()))
+
 
 if __name__ == "__main__":
     unittest.main()

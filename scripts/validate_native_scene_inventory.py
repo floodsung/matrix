@@ -78,6 +78,18 @@ def validate_inventory(
             errors.append(f"duplicate release package file: {package_file}")
         package_files.add(package_file)
 
+        proxy = scene.get("physics_proxy")
+        if not isinstance(proxy, dict):
+            errors.append(f"missing physics proxy inventory: {name}")
+        else:
+            geom_count = proxy.get("geom_count")
+            typed_count = sum(proxy.get("geom_types", {}).values())
+            if geom_count != typed_count:
+                errors.append(
+                    f"physics proxy {name}: geom_count={geom_count}, "
+                    f"typed_count={typed_count}"
+                )
+
         for scene_id in scene.get("launcher_ids", []):
             if scene_id in scene_ids:
                 errors.append(f"duplicate launcher scene id: {scene_id}")

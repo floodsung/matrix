@@ -32,8 +32,8 @@
         "size_bytes": 20845269,
         "sha256": "ae997be0a9a5cb521f85c9f5f5253d7e862db57f536cb933e625489e0345276c"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 3,
         "geom_types": {"plane": 1, "box": 2},
         "dynamic_body_count": 0,
@@ -53,8 +53,8 @@
         "size_bytes": 398747908,
         "sha256": "2f1286123a6e0a13a7f23e1d479307217c155cc7c38db32cfffb0db5d9757ad4"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 210,
         "geom_types": {"plane": 1, "box": 201, "cylinder": 8},
         "dynamic_body_count": 0,
@@ -74,8 +74,8 @@
         "size_bytes": 1159597956,
         "sha256": "246cc4f96571022f19f7e5cf35aa2788c3c8420a2bf2535b56a6aa2e33a05801"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 869,
         "geom_types": {"plane": 1, "mesh": 9, "box": 686, "cylinder": 173},
         "dynamic_body_count": 0,
@@ -95,8 +95,8 @@
         "size_bytes": 687750590,
         "sha256": "98aa43e7ffc245286e8c83ca20c824c4cecbb71d7bff8f8cd266783f8a967254"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 63,
         "geom_types": {"plane": 1, "box": 57, "cylinder": 5},
         "dynamic_body_count": 0,
@@ -116,8 +116,8 @@
         "size_bytes": 42156549,
         "sha256": "8b65ce4308cc3737b7af26098f52e5f4a163d46b19ca0644bd904a3d570fbd0a"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 131,
         "geom_types": {"plane": 1, "cylinder": 130},
         "dynamic_body_count": 0,
@@ -137,8 +137,8 @@
         "size_bytes": 343978106,
         "sha256": "2d0d8c11bb83b2883ba4930b018da40c68f5d556562ddd441b4f48f1cbbebe36"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 1276,
         "geom_types": {"plane": 1, "box": 1172, "cylinder": 103},
         "dynamic_body_count": 0,
@@ -158,10 +158,10 @@
         "size_bytes": 402917615,
         "sha256": "489d8db9c8471bc652bbebb5f0555c1bf50ea5854a90490cecc157667e150822"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 97,
-        "geom_types": {"plane": 1, "box": 89, "cylinder": 7},
+        "geom_types": {"plane": 1, "box": 88, "cylinder": 8},
         "dynamic_body_count": 0,
         "explicit_friction_geom_count": 0
       }
@@ -179,8 +179,8 @@
         "size_bytes": 37558630,
         "sha256": "89103ccb2b5970f42a39ee92204d6d176253dae0792602834f6cb91ce8afdc8c"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 41,
         "geom_types": {"plane": 1, "box": 40},
         "dynamic_body_count": 0,
@@ -200,8 +200,8 @@
         "size_bytes": 660992713,
         "sha256": "bd806b6d2095dd124e87d12a8461a1cc4716f9485f5837f70463a85f6c6aba4d"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 866,
         "geom_types": {"plane": 1, "mesh": 9, "box": 683, "cylinder": 173},
         "dynamic_body_count": 0,
@@ -221,8 +221,8 @@
         "size_bytes": 306915,
         "sha256": "f0b17a1b5293bcf591c6b34c6b3cd516b232c10ea171b9b1d854a682f04ef610"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 184,
         "geom_types": {"plane": 1, "box": 183},
         "dynamic_body_count": 0,
@@ -242,8 +242,8 @@
         "size_bytes": 262746704,
         "sha256": "4980a008de2ce647f9d943129791699431e390a69bdf77cf32f1d27867ed8858"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 222,
         "geom_types": {"plane": 1, "box": 221},
         "dynamic_body_count": 0,
@@ -263,8 +263,8 @@
         "size_bytes": 162550,
         "sha256": "8fca374867ce4d85feb35626b02177a89096da39cfeb030476c1f21deddc4eaa"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 207,
         "geom_types": {"plane": 1, "box": 198, "cylinder": 8},
         "dynamic_body_count": 0,
@@ -284,8 +284,8 @@
         "size_bytes": 163410,
         "sha256": "4f4f5f9776c89e3de284ae601d46f22e6b63de2b3a20d5a85c41be6e57750b3a"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 226,
         "geom_types": {"plane": 1, "box": 217, "cylinder": 8},
         "dynamic_body_count": 0,
@@ -305,8 +305,8 @@
         "size_bytes": 433884001,
         "sha256": "2184289422989eed14398763833cc9e9dabb62e447cbaed7fd7b81f71e9342ed"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 146,
         "geom_types": {"plane": 1, "box": 145},
         "dynamic_body_count": 0,
@@ -326,8 +326,8 @@
         "size_bytes": 216649218,
         "sha256": "e4541ec5245895ebe010d836196df33c24e7662bb84a13693536efc22b6056a1"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 11,
         "geom_types": {"plane": 1, "box": 10},
         "dynamic_body_count": 0,
@@ -347,8 +347,8 @@
         "size_bytes": 633678813,
         "sha256": "c4e3dee47ffa434712b0238d08b0b68067f1b1c9820e2ddb455f996f04e364b1"
       },
-      "historical_physics_proxy": {
-        "source_commit": "f5406c5c97642d66c80d686bdde2929966fa643e",
+      "physics_proxy": {
+        "source_release": "0.1.2",
         "geom_count": 256,
         "geom_types": {"box": 256},
         "dynamic_body_count": 256,
@@ -368,7 +368,13 @@
         "size_bytes": 15730293,
         "sha256": "95730f452432725d7b21c8b827c942dffeac6840595b2b5525c0e5594d3c80c4"
       },
-      "historical_physics_proxy": null
+      "physics_proxy": {
+        "source_release": "0.1.2",
+        "geom_count": 1,
+        "geom_types": {"plane": 1},
+        "dynamic_body_count": 0,
+        "explicit_friction_geom_count": 0
+      }
     },
     {
       "package_name": "ApartmentWorld",
@@ -383,7 +389,13 @@
         "size_bytes": 527976283,
         "sha256": "2a9bce05d5d48d19993f49e8ede3298ba8e88fdd220fd95e8a3937e09692e8ff"
       },
-      "historical_physics_proxy": null
+      "physics_proxy": {
+        "source_release": "0.1.2",
+        "geom_count": 74,
+        "geom_types": {"plane": 1, "box": 68, "cylinder": 5},
+        "dynamic_body_count": 0,
+        "explicit_friction_geom_count": 0
+      }
     },
     {
       "package_name": "MeetRoomWorld",
@@ -398,7 +410,13 @@
         "size_bytes": 157391979,
         "sha256": "23efa12d2f6985ee7135210be79084a20edfeb12d4af1498d2acaab96e110f5f"
       },
-      "historical_physics_proxy": null
+      "physics_proxy": {
+        "source_release": "0.1.2",
+        "geom_count": 48,
+        "geom_types": {"plane": 1, "box": 41, "cylinder": 6},
+        "dynamic_body_count": 0,
+        "explicit_friction_geom_count": 0
+      }
     }
   ],
   "internal_base_maps": [

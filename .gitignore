@@ -30,6 +30,8 @@ src/robot_mujoco/zsibot_robots/*
 # Build artifacts
 *.log
 *.tmp
+*.py[cod]
+__pycache__/
 bin/*.log
 bin/log.txt
 
@@ -41,6 +43,7 @@ bin/log.txt
 # Runtime logs
 **/run_*.log
 **/*_ue.log
+/outputs/
 
 # IDE files
 .vscode/
