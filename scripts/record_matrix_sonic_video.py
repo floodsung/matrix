@@ -734,11 +734,25 @@ def _source_provenance(
         "matrix_sonic_launcher": repo_root / "scripts" / "run_matrix_sonic.sh",
         "matrix_launcher": repo_root / "scripts" / "run_sim.sh",
         "matrix_sonic_runtime": repo_root / "scripts" / "run_matrix_sonic.py",
+        "urdf_visual_material_pipeline": repo_root
+        / "scripts"
+        / "apply_urdf_visual_materials.py",
         "trna_requirements": repo_root
         / "research"
         / "sonic_integration"
         / "requirements-trna.txt",
     }
+    for argument in launcher_command:
+        candidate = Path(argument).expanduser()
+        if not candidate.is_absolute():
+            candidate = repo_root / candidate
+        if candidate.is_file() and candidate.suffix in {".py", ".sh"}:
+            candidates["launcher_entrypoint"] = candidate
+            break
+    if any(Path(argument).name == "run_matrix_sonic_urban_v1.sh" for argument in launcher_command):
+        candidates["urban_v1_contract"] = (
+            repo_root / "research" / "urban_v1" / "scene.json"
+        )
     for index, argument in enumerate(launcher_command[:-1]):
         if argument == "--urdf":
             urdf = Path(launcher_command[index + 1]).expanduser()

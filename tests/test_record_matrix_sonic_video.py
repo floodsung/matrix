@@ -201,12 +201,23 @@ class MatrixSonicVideoTest(unittest.TestCase):
             root = Path(temporary_directory)
             urdf = root / "robot.urdf"
             model = root / "physics.xml"
+            launcher = root / "scripts" / "run_matrix_sonic_urban_v1.sh"
+            contract = root / "research" / "urban_v1" / "scene.json"
+            launcher.parent.mkdir(parents=True)
+            contract.parent.mkdir(parents=True)
             urdf.write_bytes(b"visual robot")
             model.write_bytes(b"physics model")
+            launcher.write_bytes(b"urban launcher")
+            contract.write_bytes(b"urban contract")
 
             provenance = MODULE._source_provenance(
                 root,
-                ["bash", "launcher.sh", "--urdf", str(urdf)],
+                [
+                    "bash",
+                    "scripts/run_matrix_sonic_urban_v1.sh",
+                    "--urdf",
+                    str(urdf),
+                ],
                 {"model": str(model)},
             )
 
@@ -220,6 +231,14 @@ class MatrixSonicVideoTest(unittest.TestCase):
             )
             self.assertEqual(provenance["visual_urdf"]["size_bytes"], 12)
             self.assertEqual(provenance["physics_model"]["size_bytes"], 13)
+            self.assertEqual(
+                provenance["launcher_entrypoint"]["sha256"],
+                hashlib.sha256(b"urban launcher").hexdigest(),
+            )
+            self.assertEqual(
+                provenance["urban_v1_contract"]["sha256"],
+                hashlib.sha256(b"urban contract").hexdigest(),
+            )
 
     def test_preview_strip_is_generated_atomically(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
