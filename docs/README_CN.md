@@ -73,6 +73,7 @@ bash scripts/check_env.sh runtime
 - [🐕 自定义机器人教程](Custom_Robot_Tutorial.md) - 导入和集成第三方 MuJoCo 机器人模型
 - [Matrix Overworld 相邻场景 V1](OVERWORLD_ADJACENT_V1_CN.md) - 六场景 SONIC 物理拼接与明确的 UE 视觉门禁
 - [Matrix SONIC 视频录制](MATRIX_VIDEO_CAPTURE_CN.md) - 主启动链路原生分辨率录制、来源记录与质量门禁
+- [Matrix 都市场景 V1](URBAN_V1_CN.md) - 原生 Town10 城市基底与保留 URDF 配色的 G1 材质
 
 **高级功能**
 - [🌐 多机器人仿真](Multi_Robot_Tutorial.md) - 在同一场景中配置和控制多个机器人

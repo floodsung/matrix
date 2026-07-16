@@ -9,7 +9,7 @@ MUJOCORUNNING="${5:-0}"
 CUSTOM_URDF="${6:-}"
 CUSTOM_NAME="${7:-}"
 FORCE_REIMPORT="${SIM_LAUNCHER_FORCE_REIMPORT_CUSTOM_URDF:-0}"
-PIPELINE_VERSION=13
+PIPELINE_VERSION=14
 MAP_KEY="custom"
 MAP_ASSET="/Game/Maps/CustomWorld"
 
@@ -747,6 +747,9 @@ sync_runtime_layout() {
         restore_urdf_fixed_links "$cache_urdf" "$active_xml"
         echo "[INFO] restoring generic runtime layout in: $active_xml"
         restore_generic_runtime_layout "$active_xml" "$cache_urdf"
+        python3 "$SCRIPT_DIR/apply_urdf_visual_materials.py" \
+            --urdf "$cache_urdf" \
+            --mjcf "$active_xml"
     fi
 
     write_scene_template "$active_scene_xml"
