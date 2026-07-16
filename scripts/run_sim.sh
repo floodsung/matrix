@@ -15,6 +15,8 @@ PIXELSTREAM="${4:-0}"
 MUJOCORUNNING="${5:-0}"
 CUSTOM_URDF="${6:-}"
 CUSTOM_NAME="${7:-}"
+MATRIX_DISABLE_MC="${MATRIX_DISABLE_MC:-0}"
+MATRIX_SONIC="${MATRIX_SONIC:-0}"
 
 SIM_LAUNCHER_ROOT="${SIM_LAUNCHER_ROOT:-$PROJECT_ROOT}"
 CUSTOM_WRAPPER="$SIM_LAUNCHER_ROOT/scripts/run_custom_urdf.sh"
@@ -122,6 +124,7 @@ kill_known_processes TERM
 PIDS=()
 WATCHDOG_PID=""
 FORCED_CLEANUP_PID=""
+SONIC_PID=""
 
 schedule_forced_cleanup() {
     (
@@ -174,7 +177,28 @@ cleanup() {
     # 2. 兜底清理（仅限本项目）
     kill_known_processes TERM
 
+    # Give the SONIC Python runtime time to close its exact deploy/bridge
+    # children. Never pattern-kill those names: TRNA may also host a real robot.
+    local attempt
+    for ((attempt = 0; attempt < 50; attempt++)); do
+        local any_alive=0
+        for pid in "${PIDS[@]:-}"; do
+            if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+                any_alive=1
+                break
+            fi
+        done
+        [[ "$any_alive" == "0" ]] && break
+        sleep 0.1
+    done
+
     # 3. 最终兜底
+    for pid in "${PIDS[@]:-}"; do
+        if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+            kill -KILL "$pid" 2>/dev/null || true
+        fi
+        [[ -n "$pid" ]] && wait "$pid" 2>/dev/null || true
+    done
     kill_known_processes KILL
 
     if [[ -n "${FORCED_CLEANUP_PID:-}" ]] && kill -0 "${FORCED_CLEANUP_PID}" 2>/dev/null; then
@@ -195,6 +219,16 @@ USE_OFFSCREEN=""
 
 USE_PIXELSTREAMER=""
 [[ "$PIXELSTREAM" == "1" ]] && USE_PIXELSTREAMER="-PixelStreamingURL=ws://127.0.0.1:8888"
+
+UE_MAX_FPS="${MATRIX_UE_MAX_FPS:-30}"
+if [[ ! "$UE_MAX_FPS" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+    echo "[ERROR] MATRIX_UE_MAX_FPS must be a non-negative number: $UE_MAX_FPS" >&2
+    exit 1
+fi
+UE_EXEC_CMDS="t.MaxFPS $UE_MAX_FPS"
+if [[ -n "${MATRIX_UE_EXTRA_EXEC_CMDS:-}" ]]; then
+    UE_EXEC_CMDS="${UE_EXEC_CMDS},${MATRIX_UE_EXTRA_EXEC_CMDS}"
+fi
 
 #######################################
 # 场景配置
@@ -372,6 +406,38 @@ case "$ROBOT_ARG" in
         ;;
 esac
 
+case "${MATRIX_DISABLE_MC,,}" in
+    1|true|yes|on)
+        ENABLE_MC=false
+        echo "[INFO] Matrix motion controller disabled by MATRIX_DISABLE_MC=$MATRIX_DISABLE_MC"
+        ;;
+    0|false|no|off|"")
+        ;;
+    *)
+        echo "[ERROR] MATRIX_DISABLE_MC must be a boolean: $MATRIX_DISABLE_MC" >&2
+        exit 1
+        ;;
+esac
+
+case "${MATRIX_SONIC,,}" in
+    1|true|yes|on)
+        MATRIX_SONIC_ENABLED=true
+        ENABLE_MC=false
+        if ! $ENABLE_MUJOCO; then
+            echo "[ERROR] MATRIX_SONIC requires MuJoCo mode to be enabled" >&2
+            exit 1
+        fi
+        echo "[INFO] External AndroidTwin/SONIC MuJoCo driver enabled"
+        ;;
+    0|false|no|off|"")
+        MATRIX_SONIC_ENABLED=false
+        ;;
+    *)
+        echo "[ERROR] MATRIX_SONIC must be a boolean: $MATRIX_SONIC" >&2
+        exit 1
+        ;;
+esac
+
 sed -i "s/^robot: .*/robot: \"$ROBOTTYPE\"/" src/robot_mujoco/simulate/config.yaml
 
 #######################################
@@ -410,17 +476,45 @@ cp scene/scene.json  src/UeSim/Linux/zsibot_mujoco_ue/Content/model/SceneLoder/s
 # - 非 custom 机器人: Content/model/<runtime_robot>/scene_terrain.xml
 # - custom 机器人:   Content/model/custom/scene_terrain_custom.xml
 # launcher 选中的场景变体需要同步覆盖到该入口，否则 UE 会继续读取默认场景。
+compose_custom_runtime_scene() {
+    if [[ "$ROBOTTYPE" != "custom" ]]; then
+        return
+    fi
+
+    local composer="$PROJECT_ROOT/scripts/compose_custom_scene.py"
+    if [[ ! -f "$composer" ]]; then
+        echo "[ERROR] Custom scene composer not found: $composer" >&2
+        exit 1
+    fi
+
+    local mujoco_model_root="$PROJECT_ROOT/src/robot_mujoco/zsibot_robots"
+    local ue_model_root="$PROJECT_ROOT/src/UeSim/Linux/zsibot_mujoco_ue/Content/model"
+    local mujoco_source="$mujoco_model_root/xgb/$SCENE"
+    local mujoco_target="$mujoco_model_root/custom/$SCENE"
+    local ue_source="$ue_model_root/xgb/$SCENE"
+    local ue_target="$ue_model_root/custom/scene_terrain_custom.xml"
+
+    if [[ ! -f "$mujoco_source" ]]; then
+        echo "[ERROR] Native MuJoCo scene is unavailable for custom composition: $mujoco_source" >&2
+        exit 1
+    fi
+    if [[ ! -f "$ue_source" ]]; then
+        echo "[ERROR] Native UE model scene is unavailable for custom composition: $ue_source" >&2
+        exit 1
+    fi
+
+    python3 "$composer" "$mujoco_source" "$mujoco_target"
+    python3 "$composer" "$ue_source" "$ue_target"
+    echo "[INFO] Custom robot composed with native scene '$SCENE'"
+}
+
 sync_ue_runtime_scene() {
     local ue_model_root="src/UeSim/Linux/zsibot_mujoco_ue/Content/model"
 
     if [[ "$ROBOTTYPE" == "custom" ]]; then
         local custom_scene_entry="$ue_model_root/custom/scene_terrain_custom.xml"
-        if [[ "$SCENE" != "scene_terrain_custom.xml" ]]; then
-            echo "[WARN] Custom runtime uses fixed entry custom/scene_terrain_custom.xml; requested '$SCENE' is not available for active custom layout"
-            return
-        fi
         if [[ -f "$custom_scene_entry" ]]; then
-            echo "[INFO] Custom runtime scene entry ready: $custom_scene_entry"
+            echo "[INFO] Custom runtime scene entry ready for '$SCENE': $custom_scene_entry"
         else
             echo "[WARNING] Custom runtime scene entry not found: $custom_scene_entry"
         fi
@@ -448,6 +542,7 @@ sync_ue_runtime_scene() {
     echo "[INFO] Synced UE runtime scene: $source_scene -> $target_scene"
 }
 
+compose_custom_runtime_scene
 sync_ue_runtime_scene
 
 #######################################
@@ -475,7 +570,7 @@ fi
 echo "[INFO] Starting processes..."
 
 cd src/robot_mujoco/simulate/build
-if $ENABLE_MUJOCO; then
+if $ENABLE_MUJOCO && ! $MATRIX_SONIC_ENABLED; then
     echo "[INFO] Starting MuJoCo"
     LD_LIBRARY_PATH="$(mujoco_ld_library_path)" ./robot_mujoco > robot_mujoco.log 2>&1 &
     PIDS+=($!)
@@ -483,10 +578,74 @@ fi
 
 cd ../../../UeSim/Linux
 echo "[INFO] Starting UE"
-LD_LIBRARY_PATH="$(ue_ld_library_path)" ./zsibot_mujoco_ue.sh -game "$MAPNAME" -ExecCmds="t.MaxFPS 30" $USE_OFFSCREEN $USE_PIXELSTREAMER > zsibot_mujoco_ue.log 2>&1 &
+LD_LIBRARY_PATH="$(ue_ld_library_path)" ./zsibot_mujoco_ue.sh -game "$MAPNAME" -ExecCmds="$UE_EXEC_CMDS" $USE_OFFSCREEN $USE_PIXELSTREAMER > zsibot_mujoco_ue.log 2>&1 &
 PIDS+=($!)
 
 sleep 7
+
+if $MATRIX_SONIC_ENABLED; then
+    MATRIX_SONIC_PYTHON="${MATRIX_SONIC_PYTHON:-python3}"
+    MATRIX_AUE_ROOT="${MATRIX_AUE_ROOT:-}"
+    MATRIX_GEAR_SONIC_ROOT="${MATRIX_GEAR_SONIC_ROOT:-}"
+    MATRIX_UNITREE_SDK2_ROOT="${MATRIX_UNITREE_SDK2_ROOT:-}"
+    MATRIX_SONIC_CANONICAL_MODEL="${MATRIX_SONIC_CANONICAL_MODEL:-$MATRIX_GEAR_SONIC_ROOT/gear_sonic/data/robot_model/model_data/g1/g1_29dof_with_hand.xml}"
+    MATRIX_SONIC_CANONICAL_MESHES="${MATRIX_SONIC_CANONICAL_MESHES:-$MATRIX_GEAR_SONIC_ROOT/gear_sonic/data/robot_model/model_data/g1/meshes}"
+    for required in \
+        "$PROJECT_ROOT/scripts/run_matrix_sonic.py" \
+        "$PROJECT_ROOT/scripts/prepare_sonic_physics_model.py" \
+        "$MATRIX_AUE_ROOT/src/androidtwin/control/sonic_sim/fused_sink.py" \
+        "$MATRIX_GEAR_SONIC_ROOT/gear_sonic_deploy/target/release/g1_deploy_onnx_ref" \
+        "$MATRIX_SONIC_CANONICAL_MODEL" \
+        "$MATRIX_UNITREE_SDK2_ROOT/lib/x86_64/libunitree_sdk2.a"; do
+        if [[ ! -f "$required" ]]; then
+            echo "[ERROR] Matrix SONIC runtime dependency is missing: $required" >&2
+            exit 1
+        fi
+    done
+    if [[ ! -d "$MATRIX_SONIC_CANONICAL_MESHES" ]]; then
+        echo "[ERROR] Canonical SONIC G1 meshes are missing: $MATRIX_SONIC_CANONICAL_MESHES" >&2
+        exit 1
+    fi
+    mkdir -p "$PROJECT_ROOT/outputs/logs"
+    SONIC_PHYSICS_DIR="${MATRIX_SONIC_PHYSICS_DIR:-$PROJECT_ROOT/outputs/runtime/matrix_sonic/$CUSTOM_NAME/${SCENE%.xml}}"
+    "$MATRIX_SONIC_PYTHON" "$PROJECT_ROOT/scripts/prepare_sonic_physics_model.py" \
+        --canonical-model "$MATRIX_SONIC_CANONICAL_MODEL" \
+        --canonical-meshes "$MATRIX_SONIC_CANONICAL_MESHES" \
+        --native-scene "$PROJECT_ROOT/src/robot_mujoco/zsibot_robots/xgb/$SCENE" \
+        --output-dir "$SONIC_PHYSICS_DIR"
+    SONIC_STATUS_FILE="${MATRIX_SONIC_STATUS_FILE:-$PROJECT_ROOT/outputs/matrix_sonic_status.json}"
+    SONIC_STARTUP_ARGS=()
+    SONIC_STARTUP_BAND_VALUE="${MATRIX_SONIC_STARTUP_BAND:-1}"
+    case "${SONIC_STARTUP_BAND_VALUE,,}" in
+        1|true|yes|on) SONIC_STARTUP_ARGS+=(--startup-band) ;;
+        0|false|no|off|"") ;;
+        *)
+            echo "[ERROR] MATRIX_SONIC_STARTUP_BAND must be a boolean" >&2
+            exit 1
+            ;;
+    esac
+    echo "[INFO] Starting external AndroidTwin/SONIC MuJoCo runtime"
+    "$MATRIX_SONIC_PYTHON" "$PROJECT_ROOT/scripts/run_matrix_sonic.py" \
+        --model "$SONIC_PHYSICS_DIR/$SCENE" \
+        --aue-root "$MATRIX_AUE_ROOT" \
+        --gear-sonic-root "$MATRIX_GEAR_SONIC_ROOT" \
+        --unitree-sdk-root "$MATRIX_UNITREE_SDK2_ROOT" \
+        --control-source "${MATRIX_SONIC_CONTROL_SOURCE:-planner}" \
+        --planner-bind "${MATRIX_SONIC_PLANNER_BIND:-tcp://0.0.0.0:5556}" \
+        --physics-hz "${MATRIX_SONIC_PHYSICS_HZ:-200}" \
+        --walk-after "${MATRIX_SONIC_WALK_AFTER:--1}" \
+        --vx "${MATRIX_SONIC_VX:-0.30}" \
+        --vy "${MATRIX_SONIC_VY:-0.0}" \
+        --yaw-rate "${MATRIX_SONIC_YAW_RATE:-0.0}" \
+        --max-seconds "${MATRIX_SONIC_MAX_SECONDS:-0}" \
+        "${SONIC_STARTUP_ARGS[@]}" \
+        --startup-band-hold "${MATRIX_SONIC_STARTUP_BAND_HOLD:-4}" \
+        --startup-band-fade "${MATRIX_SONIC_STARTUP_BAND_FADE:-3}" \
+        --status-file "$SONIC_STATUS_FILE" \
+        > "$PROJECT_ROOT/outputs/logs/matrix_sonic_runtime.log" 2>&1 &
+    SONIC_PID=$!
+    PIDS+=("$SONIC_PID")
+fi
 
 cd ../../robot_mc
 if $ENABLE_MC; then
@@ -515,4 +674,12 @@ fi
 # 阻塞等待
 #######################################
 echo "[INFO] All components started."
+if [[ -n "$SONIC_PID" ]]; then
+    set +e
+    wait "$SONIC_PID"
+    SONIC_EXIT_CODE=$?
+    set -e
+    echo "[INFO] Matrix SONIC runtime exited with code $SONIC_EXIT_CODE"
+    exit "$SONIC_EXIT_CODE"
+fi
 wait

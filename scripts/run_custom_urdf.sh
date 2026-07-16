@@ -1929,8 +1929,10 @@ if "${CUSTOM_NAME,,}" == "lite3":
 
 tree = ET.parse(stage_urdf)
 for compiler in tree.iter("compiler"):
-    if compiler.get("meshdir") == "assets":
-        compiler.set("meshdir", ".")
+    # urdf2mjcf flattens staged meshes into its own temporary root. Keeping a
+    # source-specific meshdir such as "meshes" makes MuJoCo look below that
+    # root even after filenames have been rewritten to staged absolute paths.
+    compiler.set("meshdir", ".")
 for mesh in tree.iter("mesh"):
     fn = mesh.get("filename", "")
     if fn:
