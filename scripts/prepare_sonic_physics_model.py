@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
-from compose_custom_scene import compose_custom_scene
+from compose_custom_scene import compose_custom_scene  # noqa: E402
 
 
 PIPELINE_VERSION = 1
