@@ -12,19 +12,16 @@
 
 ## G1 材质
 
-G1 的 canonical URDF 已包含与 AUE G1 相同的基础配色：主体 `white=0.7 0.7 0.7 1`，
-关节、骨盆、头部等 `dark=0.2 0.2 0.2 1`。此前通用导入流程把视觉网格统一指向
-`default_material`，所以 Matrix 中接近纯灰。
+通用导入流水线 V15 会识别标准 G1，并使用可追溯的 `aue_g1_v1` 三层材质：黑色
+软胶、深灰结构件和暖白外壳。颜色、粗糙度、金属度、部件匹配规则及 Matrix UE
+当前只渲染 RGBA 的边界均记录在 `docs/G1_FINAL_MATERIALS_CN.md`。旧 V14 缓存会
+自动重建；材质转换不改变 collision、质量、惯量、关节或 SONIC 控制。
 
-流水线 V14 会把 URDF 的具名或内联颜色转换为独立 MJCF material，并同时保留
-geom RGBA 作为兼容回退。旧 V13 缓存会自动重建，不需要手工删除缓存。材质只改变
-视觉，不改变 collision、质量、惯量、关节或 SONIC 控制。
-
-TRNA 主链路验收结果位于
-`research/urban_v1/results/trna_urban_material_20260716.json`：G1 的 36 个来源
-visual 覆盖到 41 个实际视觉 geom，白色 32 个、深色 9 个、未匹配 0 个；Town10
-录制为 1920x1080、30 FPS、10 秒，SONIC 物理约 200 Hz、RTF 约 1.0，未跌倒或
-触发稳定性重置。
+TRNA 验收结果位于
+`research/urban_v1/results/trna_aue_g1_material_v15_20260716.json`：36 个来源
+visual 覆盖 41 个实际视觉 geom，黑色 12、深灰 6、暖白 23、未匹配 0；Town10
+录制为 1920x1080、30 FPS、10 秒，SONIC 物理约 200 Hz、RTF 约 1.0，无跌倒或
+稳定性重置。另保存了完整机器人近景，避免使用右侧裁切的默认跟随视角判断材质。
 
 ## 启动
 
